@@ -1,0 +1,12 @@
+MAS beersponsor3 {
+
+	infrastructure: Centralised
+
+	agents:
+        robot;
+        owner;
+		sponsor agentArchClass SponsorGUI;
+
+	aslSourcePath:
+		"src/asl";
+}
