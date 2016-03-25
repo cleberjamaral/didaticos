@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="**/*.asl" kind="src" path="src/agt"/>
+	<classpathentry excluding="*.ptl" kind="src" path="src/int"/>
+	<classpathentry excluding="*.xml" kind="src" path="src/org"/>
+	<classpathentry kind="src" path="src/env"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JaCaMo"/>
+	<classpathentry kind="lib" path="/home/cleber/.m2/repository/org/apache/camel/camel-core/2.12.3/camel-core-2.12.3.jar"/>
+	<classpathentry kind="lib" path="/home/cleber/.m2/repository/org/apache/camel/camel-test/2.12.3/camel-test-2.12.3.jar"/>
+	<classpathentry kind="lib" path="/home/cleber/.m2/repository/net/sf/corn/corn-cps/1.1.7/corn-cps-1.1.7.jar"/>
+	<classpathentry kind="lib" path="/home/cleber/.m2/repository/junit/junit/4.11/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="/home/cleber/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/camel-artifact-component"/>
+	<classpathentry kind="lib" path="/home/cleber/Desktop/Didaticos/camelJaCaMoRobot/lib/camelartifact-0.0.1.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
