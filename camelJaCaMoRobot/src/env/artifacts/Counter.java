@@ -24,7 +24,7 @@ import cartago.*;
 @ARTIFACT_INFO(outports = { @OUTPORT(name = "out-1"), @OUTPORT(name = "in-1") })
 
 public class Counter extends Artifact {
-	
+
 	void init(int initialValue) throws Exception {
 		defineObsProperty("count", initialValue);
 	}

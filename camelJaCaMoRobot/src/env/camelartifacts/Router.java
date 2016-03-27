@@ -4,6 +4,9 @@ package camelartifacts;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
@@ -21,14 +24,17 @@ import cartago.OUTPORT;
  * Interface too? Is it part of the class and inherited?
  */
 @ARTIFACT_INFO(outports = { @OUTPORT(name = "out-1"), @OUTPORT(name = "in-1") })
-
 public class Router extends CamelArtifact {
 
 	void init() {
 
+		final Random rand = new Random();
+		
 		final CamelContext camel = new DefaultCamelContext();
-		camel.addComponent("artifact", new ArtifactComponent(this/*this.incomingOpQueue*/));
-
+		camel.addComponent("artifact", new ArtifactComponent(this/*
+																 * this.
+																 * incomingOpQueue
+																 */));
 
 		/* Create the routes */
 		try {
@@ -39,14 +45,11 @@ public class Router extends CamelArtifact {
 							.process(new Processor() {
 								public void process(Exchange exchange)
 										throws Exception {
-									System.out
-											.println("Processing new messages...");
+									log("Processing new messages...");
 
 									Map<String, Object> throwData = new HashMap<String, Object>();
 									throwData.put("inc", null);
-									throwData
-											.put("setValue",
-													simple("tick(${property.CamelTimerCounter})"));
+									throwData.put("setValue", rand.nextInt(50));
 									/**
 									 * Delivering a MAP of events based on two
 									 * strings (key, value)
@@ -59,8 +62,8 @@ public class Router extends CamelArtifact {
 									exchange.getIn().setBody(throwData);
 
 								}
-							}).to("artifact:cartago").to("mock:result")
-							.to("log:ArtifactTest?level=info");
+							}).to("artifact:cartago")
+							.to("log:CamelArtifactLogger?level=info");
 
 				}
 			});
@@ -70,12 +73,12 @@ public class Router extends CamelArtifact {
 		}
 
 		// start routing
-		System.out.println("Starting camel...");
+		log("Starting camel...");
 		try {
 			camel.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Starting router...");
+		log("Starting router...");
 	}
 }
