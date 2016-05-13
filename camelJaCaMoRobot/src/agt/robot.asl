@@ -112,10 +112,12 @@ stock(beer,3).
 	<- lookupArtifact("router",RouterId);
 	focus(RouterId);
 	//receiveMessage(Msg,Sender);
-	startReceiving;
+	//startReceiving;
+	setListenCamelRoute(true);
 	.print("Robot is ready to receive messages!").
 	
 	
 +new_msg(Msg,Sender)
-	<- stopReceiving;
+	<- //stopReceiving;
+	setListenCamelRoute(false);
 	println("New msg received ",Msg," from ",Sender). 
