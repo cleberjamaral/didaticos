@@ -13,16 +13,19 @@ mas cameljacamorobot {
     agent robot { 
     	source: robot.asl
     }
-    
+
+	agent awner : owner.asl {}
+	/*    
     agent owner {
     	source: owner.asl
     }
-
+	*/
     asl-path: src/agt
+    
     		  
 	class-path: src/agt/inc
     
-    //platform: JaCaMo("infrastructure")    
+    platform: JaCaMo("infrastructure")    
     
 }
 
