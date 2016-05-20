@@ -1,18 +1,24 @@
-/* Multiagent System to Small Series Production
- * BRAGECRIM 013/09 
- * Authors: LOCH G. N.; RIGOBELLO, T. F.; ROLOFF, M. L.; SOUZA, V. O.
+/**
+ * @author Cranefield, Stephen
+ * @author Roloff, Mario Lucio 
+ * @author Amaral, Cleber Jorge
  * 
- * Resumo:  este artefato é a forma como o agente planner interage com o ambiente.
- * O agente tem como objetivo definir qual será a sequência de produtos a serem produzidos
- * a partir do início da operação do Sistema Multiagente. Ele receberá uma lista de produtos
- * a serem produzidos selecionados pelo usuário na interface do ScadaBR. O agente deverá criar uma
- * lista ordenada dos produtos e após enviar o produto a ser produzido para o agente configurador no
- * momento oportuno.
- *  
- * 2013-05-06 - MAS initial infrastructure for SSP 
+ * Based on and with acknowledgments:
+ * camel-agent (camel_jason) 2013 by Stephen Cranefield and Surangika Ranathunga
+ * camel-opc (opcada component) 2013/2014 by Justin Smith
+ * 
+ * It is free software: you can redistribute it and/or modify
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *                                             
+ * It is distributed in the hope that it will be useful,                  
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of                  
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  
+ * GNU Lesser General Public License for more details.                             
+ * You should have received a copy of the GNU Lesser General Public License        
+ * along with camel_jason.  If not, see <http://www.gnu.org/licenses/>.            
  */
-
-// CArtAgO artifact code for project mas2ssp
 
 package artifacts;
 
@@ -29,6 +35,18 @@ public class Counter extends Artifact {
 		defineObsProperty("count", initialValue);
 	}
 	
+	@LINK
+	void inc2() {
+		log("Counter:inc2 called! A tick signal is going to be send.");
+		//signal("tick");
+	}
+
+	@LINK
+	void inc3(String str, int i) {
+		log("Counter:inc3 called! A tick signal is going to be send. Parameters: " + str + ", " + i);
+		//signal("tick");
+	}
+
 	@LINK
 	void inc(OpFeedbackParam<String> value) {
 		defineObsProperty("count", 1);
