@@ -35,6 +35,7 @@ import org.apache.camel.impl.DefaultCamelContext;
 import camelartifact.ArtifactComponent;
 import camelartifact.CamelArtifact;
 import cartago.ARTIFACT_INFO;
+import cartago.INTERNAL_OPERATION;
 import cartago.OUTPORT;
 
 /**
@@ -48,7 +49,7 @@ public class Router extends CamelArtifact {
 
 	void init() {
 
-		//final Random rand = new Random();
+		// final Random rand = new Random();
 		final CamelContext camelContext = new DefaultCamelContext();
 
 		// This simple application has only one component receiving messages from the route and producing operations
@@ -59,21 +60,57 @@ public class Router extends CamelArtifact {
 			camelContext.addRoutes(new RouteBuilder() {
 				@Override
 				public void configure() {
+
+					log("Generating a 'local' test message without parameters...");
 					from("timer:test?period=500").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
-							log("Processing new messages...");
 
 							exchange.getIn().setHeader("ArtifactName", "router");
-							exchange.getIn().setHeader("OperationName", "inc");
-							//List<Object> throwData = new ArrayList<Object>();
-							//throwData.add("inc");
-							//throwData.add(null);
-							//throwData.add(rand.nextInt(50));
-							//exchange.getIn().setBody(throwData);
+							exchange.getIn().setHeader("OperationName", "inc2");
 
 						}
-					}).to("artifact:cartago");//.to("log:CamelArtifactLogger?level=info");
+					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
 
+					log("Generating a 'local' test message with parameters...");
+					from("timer:test?period=500").process(new Processor() {
+						public void process(Exchange exchange) throws Exception {
+
+							exchange.getIn().setHeader("ArtifactName", "router");
+							exchange.getIn().setHeader("OperationName", "inc3");
+							List<Object> throwData = new ArrayList<Object>();
+							throwData.add("string...test");
+							Random rand = new Random();
+							throwData.add(rand.nextInt(50));
+							exchange.getIn().setBody(throwData);
+
+						}
+					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
+					
+					log("Generating a test message to be forwarded without parameters...");
+					from("timer:test?period=500").process(new Processor() {
+						public void process(Exchange exchange) throws Exception {
+
+							exchange.getIn().setHeader("ArtifactName", "counter");
+							exchange.getIn().setHeader("OperationName", "inc2");
+
+						}
+					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
+
+					log("Generating a test message to be forwarded with parameters...");
+					from("timer:test?period=500").process(new Processor() {
+						public void process(Exchange exchange) throws Exception {
+
+							exchange.getIn().setHeader("ArtifactName", "counter");
+							exchange.getIn().setHeader("OperationName", "inc3");
+							List<Object> throwData = new ArrayList<Object>();
+							throwData.add("string...test");
+							Random rand = new Random();
+							throwData.add(rand.nextInt(50));
+							exchange.getIn().setBody(throwData);
+
+						}
+					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
+					
 				}
 			});
 		} catch (Exception e) {
@@ -89,4 +126,17 @@ public class Router extends CamelArtifact {
 		}
 		log("Starting router...");
 	}
+
+	@INTERNAL_OPERATION
+	void inc2() {
+		log("Router:inc2 called! A tick signal is going to be send.");
+		signal("tick");
+	}
+
+	@INTERNAL_OPERATION
+	void inc3(String str, int i) {
+		log("Router:inc3 called! A tick signal is going to be send. Parameters: " + str + ", " + i);
+		signal("tick");
+	}
+
 }

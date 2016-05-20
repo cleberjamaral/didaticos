@@ -2,11 +2,11 @@
  * BRAGECRIM 013/09 
  * Authors: LOCH G. N.; RIGOBELLO, T. F.; ROLOFF, M. L.; SOUZA, V. O.
  * 
- * Resumo:  este artefato é a forma como o agente planner interage com o ambiente.
- * O agente tem como objetivo definir qual será a sequência de produtos a serem produzidos
- * a partir do início da operação do Sistema Multiagente. Ele receberá uma lista de produtos
- * a serem produzidos selecionados pelo usuário na interface do ScadaBR. O agente deverá criar uma
- * lista ordenada dos produtos e após enviar o produto a ser produzido para o agente configurador no
+ * Resumo:  este artefato �� a forma como o agente planner interage com o ambiente.
+ * O agente tem como objetivo definir qual ser�� a sequ��ncia de produtos a serem produzidos
+ * a partir do in��cio da opera����o do Sistema Multiagente. Ele receber�� uma lista de produtos
+ * a serem produzidos selecionados pelo usu��rio na interface do ScadaBR. O agente dever�� criar uma
+ * lista ordenada dos produtos e ap��s enviar o produto a ser produzido para o agente configurador no
  * momento oportuno.
  *  
  * 2013-05-06 - MAS initial infrastructure for SSP 
@@ -29,6 +29,18 @@ public class Counter extends Artifact {
 		defineObsProperty("count", initialValue);
 	}
 	
+	@LINK
+	void inc2() {
+		log("Counter:inc2 called! A tick signal is going to be send.");
+		//signal("tick");
+	}
+
+	@LINK
+	void inc3(String str, int i) {
+		log("Counter:inc3 called! A tick signal is going to be send. Parameters: " + str + ", " + i);
+		//signal("tick");
+	}
+
 	@LINK
 	void inc(OpFeedbackParam<String> value) {
 		defineObsProperty("count", 1);
