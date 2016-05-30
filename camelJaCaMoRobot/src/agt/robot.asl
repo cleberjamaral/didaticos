@@ -114,8 +114,11 @@ stock(beer,3).
 	//receiveMessage(Msg,Sender);
 	//startReceiving;
 	setListenCamelRoute(true);
+	lookupArtifact("counter",CounterId);
+	focus(CounterId);
+	inc3("d",0);
+	inc2;
 	.print("Robot is ready to receive messages!").
-	
 	
 +new_msg(Msg,Sender)
 	<- //stopReceiving;

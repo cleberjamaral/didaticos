@@ -14,12 +14,8 @@ mas cameljacamorobot {
     	source: robot.asl
     }
 
-	agent awner : owner.asl {}
-	/*    
-    agent owner {
-    	source: owner.asl
-    }
-	*/
+	agent owner_ : owner.asl {}
+	    
     asl-path: src/agt
     
     		  

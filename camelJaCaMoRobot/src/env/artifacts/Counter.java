@@ -38,13 +38,13 @@ public class Counter extends Artifact {
 	@LINK
 	void inc2() {
 		log("Counter:inc2 called! A tick signal is going to be send.");
-		//signal("tick");
+		signal("tick");
 	}
 
 	@LINK
 	void inc3(String str, int i) {
 		log("Counter:inc3 called! A tick signal is going to be send. Parameters: " + str + ", " + i);
-		//signal("tick");
+		signal("tick");
 	}
 
 	@LINK

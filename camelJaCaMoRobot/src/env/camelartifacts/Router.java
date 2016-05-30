@@ -62,7 +62,7 @@ public class Router extends CamelArtifact {
 				public void configure() {
 
 					log("Generating a 'local' test message without parameters...");
-					from("timer:test?period=500").process(new Processor() {
+					from("timer:test?period=900").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
 
 							exchange.getIn().setHeader("ArtifactName", "router");
@@ -70,24 +70,24 @@ public class Router extends CamelArtifact {
 
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
-
+					
 					log("Generating a 'local' test message with parameters...");
-					from("timer:test?period=500").process(new Processor() {
+					from("timer:test?period=1200").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
 
 							exchange.getIn().setHeader("ArtifactName", "router");
 							exchange.getIn().setHeader("OperationName", "inc3");
 							List<Object> throwData = new ArrayList<Object>();
-							throwData.add("string...test");
+							throwData.add("string...test...router");
 							Random rand = new Random();
 							throwData.add(rand.nextInt(50));
 							exchange.getIn().setBody(throwData);
 
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
-					
+				
 					log("Generating a test message to be forwarded without parameters...");
-					from("timer:test?period=500").process(new Processor() {
+					from("timer:test?period=800").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
 
 							exchange.getIn().setHeader("ArtifactName", "counter");
@@ -97,20 +97,21 @@ public class Router extends CamelArtifact {
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
 
 					log("Generating a test message to be forwarded with parameters...");
-					from("timer:test?period=500").process(new Processor() {
+					from("timer:test?period=1000").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
 
 							exchange.getIn().setHeader("ArtifactName", "counter");
 							exchange.getIn().setHeader("OperationName", "inc3");
 							List<Object> throwData = new ArrayList<Object>();
-							throwData.add("string...test");
+							throwData.add("string...test...counter");
 							Random rand = new Random();
 							throwData.add(rand.nextInt(50));
 							exchange.getIn().setBody(throwData);
 
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
-					
+
+
 				}
 			});
 		} catch (Exception e) {
