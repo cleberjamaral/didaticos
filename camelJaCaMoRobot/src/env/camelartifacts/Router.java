@@ -70,7 +70,7 @@ public class Router extends CamelArtifact {
 
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
-					
+
 					log("Generating a 'local' test message with parameters...");
 					from("timer:test?period=1200").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
@@ -111,7 +111,21 @@ public class Router extends CamelArtifact {
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
 
+					log("Generating a test message to be forwarded with parameters...");
+					from("timer:test?period=500").process(new Processor() {
+						public void process(Exchange exchange) throws Exception {
 
+							exchange.getIn().setHeader("ArtifactName", "counter");
+							exchange.getIn().setHeader("OperationName", "inc3");
+							List<Object> throwData = new ArrayList<Object>();
+							throwData.add("string...test");
+							Random rand = new Random();
+							throwData.add(rand.nextInt(50));
+							exchange.getIn().setBody(throwData);
+
+						}
+					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
+					
 				}
 			});
 		} catch (Exception e) {
