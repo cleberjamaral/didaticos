@@ -53,7 +53,7 @@ public class Router extends CamelArtifact {
 		final CamelContext camelContext = new DefaultCamelContext();
 
 		// This simple application has only one component receiving messages from the route and producing operations
-		camelContext.addComponent("artifact", new ArtifactComponent(this.getIncomingOpQueue()));
+		camelContext.addComponent("artifact", new ArtifactComponent(this.getIncomingOpQueue(),this.getOutgoingOpQueue()));
 
 		/* Create the routes */
 		try {
@@ -126,6 +126,11 @@ public class Router extends CamelArtifact {
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
 					
+					from("artifact:cartago").process(new Processor() {
+						public void process(Exchange exchange) throws Exception {
+							log.trace("Processing sending msgs...");
+						}
+					}).to("log:CamelArtifactLogger?level=info");
 				}
 			});
 		} catch (Exception e) {
@@ -154,4 +159,11 @@ public class Router extends CamelArtifact {
 		signal("tick");
 	}
 
+	@INTERNAL_OPERATION
+	void inc4() {
+		log("Router:inc4 called!");
+		List<Object> params  = new ArrayList<Object>();
+		params.add(4);
+		sendMsg("Router","inc4",params);
+	}
 }
