@@ -85,7 +85,7 @@ public class Router extends CamelArtifact {
 
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
-				
+/*				
 					log("Generating a test message to be forwarded without parameters...");
 					from("timer:test?period=800").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
@@ -110,7 +110,6 @@ public class Router extends CamelArtifact {
 
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
-
 					log("Generating a test message to be forwarded with parameters...");
 					from("timer:test?period=500").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
@@ -125,6 +124,7 @@ public class Router extends CamelArtifact {
 
 						}
 					}).to("artifact:cartago");// .to("log:CamelArtifactLogger?level=info");
+*/
 					
 					from("artifact:cartago").process(new Processor() {
 						public void process(Exchange exchange) throws Exception {
@@ -157,6 +157,7 @@ public class Router extends CamelArtifact {
 	void inc3(String str, int i) {
 		log("Router:inc3 called! A tick signal is going to be send. Parameters: " + str + ", " + i);
 		signal("tick");
+		execInternalOp("inc4");
 	}
 
 	@INTERNAL_OPERATION
