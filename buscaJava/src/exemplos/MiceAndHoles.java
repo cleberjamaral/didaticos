@@ -7,13 +7,19 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import busca.AEstrela;
 import busca.Aleatorio;
+import busca.Antecessor;
+import busca.Busca;
+import busca.BuscaBidirecional;
 import busca.Heuristica;
 import busca.BuscaIterativo;
 import busca.BuscaLargura;
 import busca.BuscaProfundidade;
+import busca.BuscaHeuristica;
 import busca.Estado;
 import busca.Nodo;
+import busca.SubidaMontanha;
 
 /**
  * @author Cleber Jorge Amaral
@@ -209,53 +215,6 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		return r.toString();
 	}
 
-	public static void main(String[] a) throws IOException {
-		int micePosition[] = { 4, 0, 6, 7 }; // Originalmente: 5 1 7 8
-												// transformado em indices
-		int holeCapacity[] = { 0, 1, 6, 7, 0 };
-
-		System.out.print("Iniciando... \n");
-		MiceAndHoles inicial = new MiceAndHoles(micePosition, holeCapacity);
-
-		String str;
-		BufferedReader teclado;
-		teclado = new BufferedReader(new InputStreamReader(System.in));
-
-		Nodo n = null;
-
-		str = "0";
-		while (!str.equals("S")) {
-			System.out
-					.print("Digite sua opcao de busca { Digite S para finalizar }\n");
-			System.out.print("\t1  -  Largura\n");
-			System.out.print("\t2  -  Profundidade\n");
-			System.out.print("\t3  -  Pronfundidade Iterativo\n");
-			System.out.print("Opcao: ");
-			str = teclado.readLine().toUpperCase();
-
-			if (str.equals("1")) {
-				System.out.println("Busca em Largura");
-				n = new BuscaLargura().busca(inicial);
-			} else {
-				if (str.equals("2")) {
-					System.out.println("Busca em Profundidade");
-					n = new BuscaProfundidade(20).busca(inicial);
-				} else {
-					if (str.equals("3")) {
-						System.out.println("Busca em Profundidade Iterativo");
-						n = new BuscaIterativo().busca(inicial);
-					}
-				}
-			}
-
-			if (n == null) {
-				System.out.println("Sem Solucao!");
-			} else {
-				System.out.println("Solucao:\n" + n.montaCaminho() + "\n\n");
-			}
-		}
-	}
-
 	/**
 	 * Verifica se um estado eh igual a outro ja inserido na lista de sucessores
 	 * (usado para poda)
@@ -340,4 +299,70 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		}
 		return aleatorio;
 	}
+	
+
+	public static void main(String[] a) throws Exception {
+		int micePosition[] = { 4, 0, 6, 7 }; // Originalmente: 5 1 7 8
+		int holeCapacity[] = { 0, 1, 6, 7, 0 };
+
+		System.out.print("Iniciando... \n");
+		MiceAndHoles inicial = new MiceAndHoles(micePosition, holeCapacity);
+
+		String str;
+		BufferedReader teclado;
+		teclado = new BufferedReader(new InputStreamReader(System.in));
+
+		Nodo n = null;
+
+		str = "0";
+		while (!str.equals("S")) {
+			System.out
+					.print("Digite sua opcao de busca { Digite S para finalizar }\n");
+			System.out.print("\t1  -  BP\n");
+			System.out.print("\t2  -  BSM\n");
+			System.out.print("\t3  -  A*\n");
+			System.out.print("\t4  -  BL\n");
+			System.out.print("\t5  -  BPI\n");
+			System.out.print("Opcao: ");
+			str = teclado.readLine().toUpperCase();
+			
+			Busca  algBusca = null;
+			
+			switch (Integer.parseInt(str)) {
+			case 1:
+				algBusca = new BuscaProfundidade(1000);
+				n = algBusca.busca(inicial);
+				break;
+			case 2: 
+				algBusca = new SubidaMontanha();
+				n = algBusca.busca(inicial);
+				break;
+			case 3:
+				algBusca = new AEstrela();
+				n = algBusca.busca(inicial);
+				break;
+			case 4:
+				algBusca = new BuscaLargura();
+				n = algBusca.busca(inicial);
+				break;
+			case 5:
+				algBusca = new BuscaIterativo();
+				n = algBusca.busca(inicial);
+				break;
+			default:
+				System.out.println("Opção inválida!");
+				break;
+			}
+			
+			if (n == null) {
+				System.out.println("Sem Solucao!");
+			} else {
+				System.out.println("Solucao:\n" + n.montaCaminho());
+				System.out.println("Tempo decorrido: "+algBusca.getStatus().getTempoDecorrido()+" (ms)");
+				System.out.println("Profundidade: "+algBusca.getStatus().getProfundidade());
+				System.out.println("Quantidade de nodos: "+algBusca.getStatus().getVisitados()+"\n\n\n");
+			}
+		}
+	}
+	
 }
