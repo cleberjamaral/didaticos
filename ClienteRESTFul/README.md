@@ -1,1 +1,2 @@
-Teste
+Testado no netbeans 8.2 com glassfish 4.1 embutido e jdk 1.8.
+Esta aplicação é um exemplo de cliente REST para se conectar ao projeto LabREST. Neste projeto são implementados métodos simples de entrega de uma mensagem Olá Mundo com GET em texto puro, json e xml. Para testar o xml usar um browser e o json usar o curl. Via curl é possivel setar para obter o XML usando um comando como: curl -H "Accept: application/xml" -X GET http://localhost:8080/LabREST/webresources/olamundo/
