@@ -5,10 +5,10 @@ import java.util.List;
 /**
  *   Algoritmos de Busca (geral, qquer problema)
  *   
- *   Busca a solução por "subida da montanha"
+ *   Busca a soluï¿½ï¿½o por "subida da montanha"
  *                        ------------------
  *
- *   @author Jomi Fred Hübner
+ *   @author Jomi Fred Hï¿½bner
  */
 public class SubidaMontanha extends BuscaHeuristica {
     
@@ -30,7 +30,7 @@ public class SubidaMontanha extends BuscaHeuristica {
             
             List<Estado> filhos = corrente.sucessores();
             if (filhos.size() == 0) {
-                corrente = ((Aleatorio)corrente).geraAleatorio(); // começa em outro lugar aleatório
+                corrente = ((Aleatorio)corrente).geraAleatorio(); // comeï¿½a em outro lugar aleatï¿½rio
                 continue;
             }
 
@@ -46,16 +46,23 @@ public class SubidaMontanha extends BuscaHeuristica {
             
             status.nroVisitados++;
             
-            // se não tem filho melhor que corrente
+            // se nao tem filho melhor que corrente
             if (((Heuristica)melhorFilho).h() >= ((Heuristica)corrente).h()) {
                 if (corrente.ehMeta()) {
+                    if (melhorCustoAcumulado == 0) 
+                    	melhorCustoAcumulado = corrente.custoAcumulado();
+                    else if (melhorCustoAcumulado > corrente.custoAcumulado())
+                    	melhorCustoAcumulado = corrente.custoAcumulado();
+                	
+                	
                     status.termina(true);
                     return new Nodo(corrente, null);
-                } else { // máximo local
+                } else { // maximo local
                     if (((Heuristica)corrente).h() < ((Heuristica)melhor).h()) {
                         melhor = corrente;
                     }
-                    corrente = ((Aleatorio)corrente).geraAleatorio(); // começa em outro lugar aleatório
+        			//System.out.print("\nNao e meta! Maximo local atingido!");
+                    corrente = ((Aleatorio)corrente).geraAleatorio(); // comeca em outro lugar aleatorio
                 }
             } else { // tem filho melhor que corrente
                 corrente = melhorFilho;

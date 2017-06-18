@@ -5,9 +5,9 @@ import java.util.Queue;
 
 /**
  *
- * Busca a solução por busca em largura.
+ * Busca a soluï¿½ï¿½o por busca em largura.
  *
- *  @author Jomi Fred Hübner
+ *  @author Jomi Fred Hï¿½bner
  */
 public class BuscaLargura extends Busca {
     
@@ -35,6 +35,13 @@ public class BuscaLargura extends Busca {
             //System.out.println("pegando "+n);
             status.explorando(n, abertos.size());
             if (n.estado.ehMeta()) {
+            	//Esta busca poderia estar sendo chamada da BPI que faria com que fossem geradas mais soluÃ§Ãµes?
+            	if ((n.estado.custoAcumulado() > 0) && (melhorCustoAcumulado == 0)) 
+           			melhorCustoAcumulado = n.estado.custoAcumulado();
+            	else if ((n.estado.custoAcumulado() > 0) && (n.estado.custoAcumulado() < melhorCustoAcumulado)) 
+           			melhorCustoAcumulado = n.estado.custoAcumulado();
+            	
+            	
                 status.termina(true);
                 return n;
             }

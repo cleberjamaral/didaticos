@@ -306,5 +306,11 @@ public class EstadoRainhas implements Estado, Heuristica, Aleatorio {
         System.out.println("solu��o:\n" + n.getEstado() + "\n\n");
     }
     
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return 0;
+    }
 }
 

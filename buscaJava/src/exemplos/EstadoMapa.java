@@ -175,5 +175,11 @@ public class EstadoMapa implements Estado, Antecessor {
         */
        
     }
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return 0;
+    }
 }
 

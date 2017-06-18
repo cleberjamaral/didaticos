@@ -1,25 +1,12 @@
 package exemplos;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import busca.AEstrela;
 import busca.Aleatorio;
-import busca.Antecessor;
-import busca.Busca;
-import busca.BuscaBidirecional;
 import busca.Heuristica;
-import busca.BuscaIterativo;
-import busca.BuscaLargura;
-import busca.BuscaProfundidade;
-import busca.BuscaHeuristica;
 import busca.Estado;
-import busca.Nodo;
-import busca.SubidaMontanha;
 
 /**
  * @author Cleber Jorge Amaral
@@ -49,7 +36,8 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 															// as posições dos
 															// ratos
 	int ithMice = -1; // Comeca pelo -1 (a geracao de sucessores incrementa)
-	boolean debug = true;
+	int custoAcc = 0;
+	boolean debug = false;
 
 	/** operacao que gerou o estado */
 
@@ -189,30 +177,33 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	}
 
 	public String toString() {
-		StringBuffer r = new StringBuffer("\n");
+		String r = "\n";
 
-		// Forma de impressão do relatório 1
-		r.append("\tMice position: ");
-		for (int j = 0; j < micePosition.size(); j++)
-			r.append(micePosition.get(j) + " ");
-		r.append("Hole Capacity: ");
-		for (int j = 0; j < holeCapacity.size(); j++)
-			r.append(holeCapacity.get(j) + " ");
-		r.append("\n");
-
-		// Forma de impressão do relatório 2
-		for (int j = 0; j < holeCapacity.size(); j++) {
-			r.append("\tHole(" + j + "), capacity: " + holeCapacity.get(j)
-					+ " ");
-			for (int i = 0; i < micePosition.size(); i++)
-				if (micePosition.get(i) == j)
-					r.append("Mice(" + i + ") ");
-			r.append("\n");
+		if (debug) {
+			// Forma de impressão do relatório 1
+			r += "\t[" + ithMice + "/" + micePosition.size() + "] Mice position: ";
+			for (int j = 0; j < micePosition.size(); j++)
+				r += micePosition.get(j) + " ";
+			r += "Hole Capacity: ";
+			for (int j = 0; j < holeCapacity.size(); j++)
+				r += holeCapacity.get(j) + " ";
+			r += "\n";
 		}
-
-		r.append("Custo total: " + h() + "\n");
+		
+		if (debug) {
+			// Forma de impressão do relatório 2
+			for (int j = 0; j < holeCapacity.size(); j++) {
+				r += "\tHole(" + j + "), capacity: " + holeCapacity.get(j)
+						+ " ";
+				for (int i = 0; i < micePosition.size(); i++)
+					if (micePosition.get(i) == j)
+						r += "Mice(" + i + ") ";
+				r += "\n";
+			}
+		}
+		r += "\t[" + ithMice + "/" + micePosition.size() + "] Custo total: " + h() + "\n";
 		System.out.print(r);
-		return r.toString();
+		return r;
 	}
 
 	/**
@@ -244,14 +235,14 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	}
 
 	public int h() {
-		int movimentacao = 0;
+		custoAcc = 0;
 		for (int i = 0; i < micePosition.size(); i++) {
 			if (micePosition.get(i) != origPosition.get(i))
-				movimentacao += Math.abs(micePosition.get(i)
+				custoAcc += Math.abs(micePosition.get(i)
 						- origPosition.get(i));
 		}
 
-		return movimentacao;
+		return custoAcc;
 	}
 
 	/**
@@ -299,70 +290,15 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		}
 		return aleatorio;
 	}
-	
 
-	public static void main(String[] a) throws Exception {
-		int micePosition[] = { 4, 0, 6, 7 }; // Originalmente: 5 1 7 8
-		int holeCapacity[] = { 0, 1, 6, 7, 0 };
-
-		System.out.print("Iniciando... \n");
-		MiceAndHoles inicial = new MiceAndHoles(micePosition, holeCapacity);
-
-		String str;
-		BufferedReader teclado;
-		teclado = new BufferedReader(new InputStreamReader(System.in));
-
-		Nodo n = null;
-
-		str = "0";
-		while (!str.equals("S")) {
-			System.out
-					.print("Digite sua opcao de busca { Digite S para finalizar }\n");
-			System.out.print("\t1  -  BP\n");
-			System.out.print("\t2  -  BSM\n");
-			System.out.print("\t3  -  A*\n");
-			System.out.print("\t4  -  BL\n");
-			System.out.print("\t5  -  BPI\n");
-			System.out.print("Opcao: ");
-			str = teclado.readLine().toUpperCase();
-			
-			Busca  algBusca = null;
-			
-			switch (Integer.parseInt(str)) {
-			case 1:
-				algBusca = new BuscaProfundidade(1000);
-				n = algBusca.busca(inicial);
-				break;
-			case 2: 
-				algBusca = new SubidaMontanha();
-				n = algBusca.busca(inicial);
-				break;
-			case 3:
-				algBusca = new AEstrela();
-				n = algBusca.busca(inicial);
-				break;
-			case 4:
-				algBusca = new BuscaLargura();
-				n = algBusca.busca(inicial);
-				break;
-			case 5:
-				algBusca = new BuscaIterativo();
-				n = algBusca.busca(inicial);
-				break;
-			default:
-				System.out.println("Opção inválida!");
-				break;
-			}
-			
-			if (n == null) {
-				System.out.println("Sem Solucao!");
-			} else {
-				System.out.println("Solucao:\n" + n.montaCaminho());
-				System.out.println("Tempo decorrido: "+algBusca.getStatus().getTempoDecorrido()+" (ms)");
-				System.out.println("Profundidade: "+algBusca.getStatus().getProfundidade());
-				System.out.println("Quantidade de nodos: "+algBusca.getStatus().getVisitados()+"\n\n\n");
-			}
-		}
-	}
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return custoAcc;
+    	
+    }
 	
 }
+
+

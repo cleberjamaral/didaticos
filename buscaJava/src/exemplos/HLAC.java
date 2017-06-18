@@ -182,5 +182,11 @@ public class HLAC implements Estado {
             System.out.println("solucao:\n" + n.montaCaminho() + "\n\n");
         }
     }
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return 0;
+    }
 }
 

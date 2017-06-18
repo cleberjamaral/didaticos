@@ -314,4 +314,10 @@ public class MissionarioCanibalSingle implements Estado, Antecessor{
         return (missionario + "," + canibal + barco).hashCode();
     }
     
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return 0;
+    }
 }

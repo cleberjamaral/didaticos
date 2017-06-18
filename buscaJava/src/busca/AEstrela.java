@@ -6,7 +6,7 @@ import java.util.Queue;
 /**
  *   Algoritmos de Busca A*
  *
- *   @author Jomi Fred Hübner
+ *   @author Jomi Fred Hï¿½bner
  */
 public class AEstrela extends BuscaHeuristica {
     
@@ -23,12 +23,12 @@ public class AEstrela extends BuscaHeuristica {
         super(ms);
     }
 	
-	/** seta o limite para f(), -1 é ilimitado */
+	/** seta o limite para f(), -1 ï¿½ ilimitado */
 	public void setMaxF(int m) {
 		maxF = m;
 	}
 
-    /** seta o limite para o nro de abertos, -1 é ilimitado */
+    /** seta o limite para o nro de abertos, -1 ï¿½ ilimitado */
     public void setMaxAbertos(int m) {
         maxAbertos = m;
     }
@@ -39,7 +39,7 @@ public class AEstrela extends BuscaHeuristica {
 	
     /**
      *
-     * Busca a solução por busca em heurística.
+     * Busca a soluï¿½ï¿½o por busca em heurï¿½stica.
      *                              ----------
      * (baseado no Russel & Norvig)
      */
@@ -51,13 +51,18 @@ public class AEstrela extends BuscaHeuristica {
         Queue<Nodo> abertos = new PriorityQueue<Nodo>(100, getNodoComparatorF()); // lista ordenada por f()
         Nodo nInicial = new Nodo(inicial, null);
         abertos.add(nInicial);
-        theBest = nInicial; // o melhor nodo já gerado
+        theBest = nInicial; // o melhor nodo jï¿½ gerado
         
         while (!parar && abertos.size() > 0) {
             
             Nodo melhor = abertos.remove();
             status.explorando(melhor, abertos.size());
             if (melhor.estado.ehMeta()) {
+                if (melhorCustoAcumulado == 0) 
+                	melhorCustoAcumulado = melhor.estado.custoAcumulado();
+                else if (melhorCustoAcumulado > melhor.estado.custoAcumulado())
+                	melhorCustoAcumulado = melhor.estado.custoAcumulado();
+
                 status.termina(true);
                 return melhor;
             }
@@ -69,10 +74,12 @@ public class AEstrela extends BuscaHeuristica {
                 break;
             }
             
-            // o "the best" e o código que segue só para fins de interface
+            // o "the best" e o cï¿½digo que segue sï¿½ para fins de interface
             if (melhor.f() < theBest.f()) {
                 theBest = melhor;
                 //print("\nMelhor (em profundidade "+melhor.getProfundidade()+", h="+((Heuristica)theBest.estado).h()+")="+melhor);
+            	//Esta busca poderia estar sendo chamada da BPI que faria com que fossem geradas mais soluÃ§Ãµes?
+
             }
             
         }
@@ -81,7 +88,7 @@ public class AEstrela extends BuscaHeuristica {
     }
     
     public String toString() {
-    	return "A* - busca heurística"; 
+    	return "A* - busca heurï¿½stica"; 
     }
     
 }

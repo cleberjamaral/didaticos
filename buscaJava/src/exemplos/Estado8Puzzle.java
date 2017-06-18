@@ -405,5 +405,12 @@ public class Estado8Puzzle implements Estado, Heuristica, Antecessor {
             System.out.println("solucao ("+s.getProfundidade()+")= "+s.montaCaminho());
         }        
     }
+    
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return 0;
+    }
 }
 

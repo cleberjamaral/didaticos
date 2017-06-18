@@ -231,4 +231,12 @@ public class CopyOfMiceAndHoles implements Estado, Heuristica{
    		else
    			return false;
     }
+    
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return 0;
+    }
+
 }

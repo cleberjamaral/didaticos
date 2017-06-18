@@ -24,6 +24,12 @@ public interface Estado {
      * (nao e o custo acumulado --- g)
      */
     public int custo();
+    
+
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado();
 
 
    /**

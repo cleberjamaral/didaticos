@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  *   Algoritmos de Busca (geral, qquer problema)
  *
- *   @author Jomi Fred Hübner
+ *   @author Jomi Fred Hï¿½bner
  */
 public abstract class Busca {
 
@@ -23,6 +23,11 @@ public abstract class Busca {
 
     private Map<Estado,Integer> fechados = null; // mapeia o estado para um custo g
     
+	protected int melhorCustoAcumulado = 0;
+
+    public int getMelhorCustoAcumulado() {
+		return melhorCustoAcumulado;
+	}
     /** busca sem mostrar status */
     public Busca() {
     }

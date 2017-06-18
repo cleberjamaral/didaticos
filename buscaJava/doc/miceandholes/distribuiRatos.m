@@ -1,60 +1,61 @@
 %Original
-m = [4, 0, 6, 7, 19, 4, 8, 9, 17, 10];
-h = [0 1 6 7 0 0 0 0 9 1 0 0 2 1 0 0 2 5 0 1];
+m = [4, 0, 6, 7];
+h = [0 1 2 0 0 0 1 1 0];
 d = size(m)(2)/sum(h)
 
-%Cria 10x mais ratos e distribui em um corredor 2 x maior
-m1 = [];
-h1 = [];
-for i = 1: (size(h)(2)*30) h1 = [h1 h(randi(numel(h)))]; end;
-for i = 1: (size(m)(2)*30) m1 = [m1 randi(size(h1)(2))]; end;
-d1 = size(m1)(2)/sum(h1)
+for cenario = 1:10
+	%Multiplica quantidade de ratos para os diferentes cenarios
+	if cenario == 1
+	    qtRatos = 4
+	elseif cenario == 2
+	    qtRatos = 5
+	elseif cenario == 3
+	    qtRatos = 6
+	elseif cenario == 4
+	    qtRatos = 8
+	elseif cenario == 5
+	    qtRatos = 10
+	elseif cenario == 6
+	    qtRatos = 20
+	elseif cenario == 7
+	    qtRatos = 100
+	elseif cenario == 8
+	    qtRatos = 300
+	elseif cenario == 9
+	    qtRatos = 500
+	else
+	    qtRatos = 1000
+	end
 
-
-%Normaliza se a diferença da taxa de ocupação for maior que 1%
-while ((d/d1 > 1.01) || (d1/d < 0.99))
-	p = randi(size(h1)(2));
-	if (d/d1 > 1) %deve-se diminuir vagas
-		if (h1(p) > 0)
-			h1(p) = h1(p) - 1;
-		end
-	else %deve-se aumentar vagas
-		if (h1(p) < size(h1)(2))
-			h1(p) = h1(p) + 1;
-		end;
-	end;
+	m1 = [];
+	h1 = [];
+	for i = 1: (qtRatos*2) h1 = [h1 randi([0,9])]; end;
+	for i = 1: (qtRatos*1) m1 = [m1 randi(size(h1)(2))]; end;
 	d1 = size(m1)(2)/sum(h1);
-end;
-size(m1)(2)
-
-fprintf('int micePosition[] = {')
-fprintf('%d,',m1)
-fprintf('};\n')
-fprintf('int holeCapacity[] = {')
-fprintf('%d,',h1)
-fprintf('};\n')
 
 
-%{
-m1 = [4, 0, 6, 7, 9, 4, 8, 1, 17, 19];
-h1 = [0, 1, 6, 7, 0, 0, 0, 0, 9, 1, 0, 0, 2, 1, 0, 0, 2, 5, 0, 1];
-d1 = size(m1)(2)/sum(h1)
-m1 = [4, 0, 6, 7, 9, 4, 8, 1, 17];
-h1 = [0, 1, 6, 7, 0, 0, 0, 0, 9, 1, 0, 0, 2, 1, 0, 0, 1, 4];
-d1 = size(m1)(2)/sum(h1)
-m1 = [4, 0, 6, 7, 9, 4, 8, 1];
-h1 = [0, 1, 6, 7, 0, 0, 0, 0, 9, 1, 0, 0, 2, 2, 0, 0];
-d1 = size(m1)(2)/sum(h1)
-m1 = [4, 0, 6, 7, 9, 4, 8];
-h1 = [0, 1, 6, 7, 0, 0, 0, 0, 9, 1, 0, 0, 0, 1];
-d1 = size(m1)(2)/sum(h1)
-m1 = [4, 0, 6, 7, 9, 4];
-h1 = [0, 1, 6, 7, 0, 0, 0, 0, 6, 1, 0, 0];
-d1 = size(m1)(2)/sum(h1)
-m1 = [4, 0, 6, 7, 9];
-h1 = [0, 1, 6, 7, 0, 0, 0, 0, 4, 0];
-d1 = size(m1)(2)/sum(h1)
-m1 = [4, 0, 6, 7];
-h1 = [0, 1, 6, 7, 0, 0, 0, 0];
-d1 = size(m1)(2)/sum(h1)
-%}
+	%Normaliza se a diferença da taxa de ocupação for maior que 1%
+	while ((d1 > 0.86) || (d1 < 0.80))
+		p = randi(size(h1)(2));
+		if (d/d1 > 1) %deve-se diminuir vagas
+			if (h1(p) > 0)
+				h1(p) = h1(p) - 1;
+			end
+		else %deve-se aumentar vagas
+			if (h1(p) < size(h1)(2))
+				h1(p) = h1(p) + 1;
+			end;
+		end;
+		d1 = size(m1)(2)/sum(h1);
+	end;	
+
+	fileID = fopen('exp.txt','a');
+	fprintf(fileID,'//Gerado cenario %d ratos, densidade: %f\n',qtRatos,d1)
+	fprintf(fileID,'int micePosition[] = {')
+	fprintf(fileID,'%d,',m1)
+	fprintf(fileID,'};\n')
+	fprintf(fileID,'int holeCapacity[] = {')
+	fprintf(fileID,'%d,',h1)
+	fprintf(fileID,'};\n')
+	fclose(fileID);
+end

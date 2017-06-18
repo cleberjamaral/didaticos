@@ -296,5 +296,11 @@ public class QuadradoMagico implements Estado, Heuristica {
         return desvio;
     }
     
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return 0;
+    }
 }
 

@@ -161,5 +161,11 @@ public class EstadoJarros implements Estado {
         }
         
     }
+	/**
+     * Custo acumulado g
+     */
+    public int custoAcumulado(){
+		return 0;
+    }
 }
 
