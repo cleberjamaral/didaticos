@@ -32,8 +32,8 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	List<Integer> holeCapacity = new ArrayList<Integer>(); // Capacidade atual dos buracos
 	int ithMice = -1; // Comeca pelo -1 (a geracao de sucessores incrementa)
 	int retorno = 0;
-	boolean debug = false;
-	boolean showMiceMap = false;
+	boolean debug = true;
+	boolean showMiceMap = true;
 	int heuristicaAtiva = 1;
 
 	/** operacao que gerou o estado */
@@ -260,7 +260,9 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		//Se a heurística é baseada no custo de cada rato não computado de chegar ao buraco mais próximo
 		} else {
 			retorno = 0;
-			for (int i = ithMice; i < shorterDistance.size(); i++) {
+			int i;
+			if (ithMice > 0) i = ithMice; else i = 0;
+			for (; i < shorterDistance.size(); i++) {
 				retorno += shorterDistance.get(i);
 			}
 		}
