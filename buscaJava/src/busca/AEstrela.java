@@ -63,6 +63,9 @@ public class AEstrela extends BuscaHeuristica {
                 else if (melhorCustoAcumulado > melhor.estado.custoAcumulado())
                 	melhorCustoAcumulado = melhor.estado.custoAcumulado();
 
+                //Não deveria estar entrando aqui quando encontrasse mais de uma solução (baseado nos nodos ainda abertos)? 
+                System.out.print("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * Meta encontrada!!! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
+                
                 status.termina(true);
                 return melhor;
             }
@@ -74,7 +77,7 @@ public class AEstrela extends BuscaHeuristica {
                 break;
             }
             
-            // o "the best" e o c�digo que segue s� para fins de interface
+            // o "the best" e o codigo que segue so para fins de interface
             if (melhor.f() < theBest.f()) {
                 theBest = melhor;
                 //print("\nMelhor (em profundidade "+melhor.getProfundidade()+", h="+((Heuristica)theBest.estado).h()+")="+melhor);

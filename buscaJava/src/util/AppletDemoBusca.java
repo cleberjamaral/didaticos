@@ -399,6 +399,7 @@ public class AppletDemoBusca extends JApplet {
         	} else if (cenario == 6) {
 				int micePosition[] = {6,8,1,9,7,3};
 				int holeCapacity[] = {1,4,1,0,2,0,3,7,1,1,1,0};
+        		System.out.print("Criando....");
         		return new MiceAndHoles(micePosition,holeCapacity,2); 
         	} else if (cenario == 7) {
         		int micePosition[] = {4, 0, 6, 7, 9, 4, 8};

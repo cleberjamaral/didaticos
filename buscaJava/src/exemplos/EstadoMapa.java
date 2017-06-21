@@ -11,6 +11,7 @@ import java.util.Map;
 import busca.Antecessor;
 import busca.BuscaLargura;
 import busca.Estado;
+import busca.Heuristica;
 import busca.Nodo;
 
 /**
