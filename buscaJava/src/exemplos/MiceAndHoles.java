@@ -26,24 +26,24 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	}
 
 	/** atributos do estado */
-	List<Integer> origPosition = new ArrayList<Integer>(); // Usado para
-															// calcular o cuso
-	List<Integer> micePosition = new ArrayList<Integer>(); // Armazena a posição
-															// atual de cada
-															// rato
-	List<Integer> holeCapacity = new ArrayList<Integer>(); // A capacidade de
-															// cada buraco dadas
-															// as posições dos
-															// ratos
+	List<Integer> origPosition = new ArrayList<Integer>(); // Usado em custo													// calcular o custo
+	List<Integer> shorterDistance = new ArrayList<Integer>(); // Usado em heurística
+	List<Integer> micePosition = new ArrayList<Integer>(); // Posição atual do rato														// atual de cada
+	List<Integer> holeCapacity = new ArrayList<Integer>(); // Capacidade atual dos buracos
 	int ithMice = -1; // Comeca pelo -1 (a geracao de sucessores incrementa)
-	int custoAcc = 0;
+	int retorno = 0;
 	boolean debug = false;
+	boolean showMiceMap = false;
+	int heuristicaAtiva = 1;
 
 	/** operacao que gerou o estado */
 
 	/** Cria cenario inicial */
-	public MiceAndHoles(int mP[], int hC[]) {
+	public MiceAndHoles(int mP[], int hC[], int heuristica) {
 		int maxMicePosition = 0;
+		
+		//Seta a heurística que deve ser utilizada nos ensaios
+		heuristicaAtiva = heuristica;
 
 		// Cria lista de ratos
 		if (debug)
@@ -64,10 +64,24 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		for (int i = hC.length; i <= maxMicePosition; i++)
 			holeCapacity.add(0);
 
-		// Subtrai a capacidade onde há ratos
-		for (int i = 0; i < micePosition.size(); i++)
+		// Subtrai a capacidade onde há ratos e atualiza heurística nearestHole
+		if (debug)
+			System.out.print("shorterDistance(MiceAndHoles): ");
+		for (int i = 0; i < micePosition.size(); i++) {
 			holeCapacity.set(micePosition.get(i),
 					holeCapacity.get(micePosition.get(i)) - 1);
+
+			//Atualiza heurística marcando o buraco mais próximo ao rato corrente
+			int closestDist = Integer.MAX_VALUE;
+			for (int j = 0; j < holeCapacity.size(); j++){
+				if ((holeCapacity.get(j) > 0) && (Math.abs(origPosition.get(i) - j) < closestDist)){
+					closestDist = Math.abs(origPosition.get(i) - j);
+				}
+			}
+			shorterDistance.add(closestDist);
+			if (debug)
+				System.out.print(shorterDistance.get(i) + " ");
+		}
 
 		// Imprime mapa de capacidade atualizado
 		if (debug)
@@ -190,7 +204,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 			r += "\n";
 		}
 		
-		if (debug) {
+		if (showMiceMap) {
 			// Forma de impressão do relatório 2
 			for (int j = 0; j < holeCapacity.size(); j++) {
 				r += "\tHole(" + j + "), capacity: " + holeCapacity.get(j)
@@ -235,14 +249,22 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	}
 
 	public int h() {
-		custoAcc = 0;
-		for (int i = 0; i < micePosition.size(); i++) {
-			if (micePosition.get(i) != origPosition.get(i))
-				custoAcc += Math.abs(micePosition.get(i)
-						- origPosition.get(i));
+		//Se a heurística selecionada é a de custo padrão (que não faz muito sentido!)
+		if (heuristicaAtiva == 1){
+			retorno = 0;
+			for (int i = 0; i < micePosition.size(); i++) {
+				if (micePosition.get(i) != origPosition.get(i))
+					retorno += Math.abs(micePosition.get(i)
+							- origPosition.get(i));
+			}
+		//Se a heurística é baseada no custo de cada rato não computado de chegar ao buraco mais próximo
+		} else {
+			retorno = 0;
+			for (int i = ithMice; i < shorterDistance.size(); i++) {
+				retorno += shorterDistance.get(i);
+			}
 		}
-
-		return custoAcc;
+		return retorno;
 	}
 
 	/**
@@ -295,7 +317,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
      * Custo acumulado g
      */
     public int custoAcumulado(){
-		return custoAcc;
+		return retorno;
     	
     }
 	
