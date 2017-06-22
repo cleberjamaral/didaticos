@@ -91,9 +91,14 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 				System.out.print(holeCapacity.get(i) + " ");
 		if (debug)
 			System.out.print("\n");
+
 	}
 
 	public boolean ehMeta() {
+
+		//Gambiarra isso estar aqui, deveria estar em outro local do código
+		calculaCustoAcumuladoG();
+
 		// Se algum buraco estiver superlotado, não é meta!
 		for (int i = 0; i < holeCapacity.size(); i++) {
 			if (holeCapacity.get(i) < 0) {
@@ -180,19 +185,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 							.set(novo.micePosition.get(j), novo.holeCapacity
 									.get(novo.micePosition.get(j)) - 1);
 				}
-/*
-				int calculaCustoAcc = 0;
-				
-				for (int j = 0; j <= ithMice; j++) { 
-					calculaCustoAcc += Math.abs(novo.micePosition.get(j) - novo.origPosition.get(j));
-					if (debug)
-						System.out.print(
-								"Custo de deslocamento do rato ["+j+"/"+ithMice+"] de "+
-								novo.origPosition.get(j)+"->"+novo.micePosition.get(j)+" é: "+
-								calculaCustoAcc+" \n");
-				}
-				novo.custoAcumulado = calculaCustoAcc;
-*/
+
 				suc.add(novo);
 				
 			}
@@ -239,12 +232,6 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 			r += "\n";
 		}
 		
-		//Calcula custo g até o rato atual. Ta certo isso aqui?
-		int calculaCustoAcc = 0;
-		for (int j = 0; j < micePosition.size(); j++)
-			calculaCustoAcc += Math.abs(micePosition.get(j) - origPosition.get(j));
-		custoAcumulado = calculaCustoAcc;
-
 		if (showMiceMap) {
 			// Forma de impressão do relatório 2
 			for (int j = 0; j < holeCapacity.size(); j++) {
@@ -260,6 +247,14 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 				"] Custo total heurística("+heuristicaAtiva+"): " + custoAcumulado() + "\n";
 		System.out.print(r);
 		return r;
+	}
+
+	private void calculaCustoAcumuladoG() {
+		//Calcula custo g até o rato atual.
+		int calculaCustoAcc = 0;
+		for (int j = 0; j < micePosition.size(); j++)
+			calculaCustoAcc += Math.abs(micePosition.get(j) - origPosition.get(j));
+		custoAcumulado = calculaCustoAcc;
 	}
 
 	/**
@@ -361,6 +356,8 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 			if (aleatorio.holeCapacity.get(aleatorio.micePosition.get(j)) < 0) 
 				break;
 		aleatorio.ithMice = j;
+		
+		aleatorio.calculaCustoAcumuladoG();
 			
 		return aleatorio;
 	}

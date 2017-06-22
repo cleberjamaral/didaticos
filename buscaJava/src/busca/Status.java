@@ -65,9 +65,10 @@ public class Status {
         tamAbertos = s;
         nroVisitados++;
 
-        //Tentativa de obter o custo g da solução
-        if (n.estado.ehMeta()) 
+        //Obtenção do custo g da solução, não serve para BSM e BPI que não utiliza este método exploratório
+        if (n.estado.ehMeta()) { 
         	custoTotal = n.estado.custoAcumulado();
+        }
         	
         if (n.getProfundidade() > profundidadeMax) {
             profundidadeMax = n.getProfundidade();

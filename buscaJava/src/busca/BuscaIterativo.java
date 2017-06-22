@@ -56,7 +56,13 @@ public class BuscaIterativo extends BuscaProfundidade {
             Nodo n = super.busca(inicial); 
             status.nroVisitados += super.status.nroVisitados; // acumula das varias buscas em profundidade
             if (n != null) {
-                status.termina(true);
+
+                //Obtenção do custo g da solução
+                if (n.estado.ehMeta()) { 
+                	status.custoTotal = n.estado.custoAcumulado();
+                }
+            	
+            	status.termina(true);
                 return n;
             }
         }

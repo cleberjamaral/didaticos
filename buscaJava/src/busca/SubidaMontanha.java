@@ -1,5 +1,6 @@
 package busca;
 
+
 import java.util.List;
 
 /**
@@ -49,12 +50,11 @@ public class SubidaMontanha extends BuscaHeuristica {
             // se nao tem filho melhor que corrente
             if (((Heuristica)melhorFilho).h() >= ((Heuristica)corrente).h()) {
                 if (corrente.ehMeta()) {
-                	/*
-                    if (melhorCustoAcumulado == 0) 
-                    	melhorCustoAcumulado = corrente.custoAcumulado();
-                    else if (melhorCustoAcumulado > corrente.custoAcumulado())
-                    	melhorCustoAcumulado = corrente.custoAcumulado();
-                	*/
+
+                    //Obtenção do custo g da solução
+                    if (corrente.ehMeta()) { 
+                    	status.custoTotal = corrente.custoAcumulado();
+                    }
                 	
                     status.termina(true);
                     return new Nodo(corrente, null);
