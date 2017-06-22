@@ -49,13 +49,6 @@ public class BuscaProfundidade extends Busca {
             Nodo n = abertos.remove(0);
             status.explorando(n,abertos.size());
             if (n.estado.ehMeta()) {
-            	/*
-            	//Esta busca poderia estar sendo chamada da BPI que faria com que fossem geradas mais soluções?
-            	if ((n.estado.custoAcumulado() > 0) && (melhorCustoAcumulado == 0)) 
-           			melhorCustoAcumulado = n.estado.custoAcumulado();
-            	else if ((n.estado.custoAcumulado() > 0) && (n.estado.custoAcumulado() < melhorCustoAcumulado)) 
-           			melhorCustoAcumulado = n.estado.custoAcumulado();
-            	*/	
                 status.termina(true);
                 return n;
             }

@@ -31,7 +31,7 @@ public class SubidaMontanha extends BuscaHeuristica {
             
             List<Estado> filhos = corrente.sucessores();
             if (filhos.size() == 0) {
-                corrente = ((Aleatorio)corrente).geraAleatorio(); // come�a em outro lugar aleat�rio
+                corrente = ((Aleatorio)corrente).geraAleatorio(); // comeca em outro lugar aleatorio
                 continue;
             }
 

@@ -26,7 +26,8 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	}
 
 	/** atributos do estado */
-	List<Integer> origPosition = new ArrayList<Integer>(); // Usado em custo
+	static List<Integer> origPosition = new ArrayList<Integer>(); // Usado em custo
+	static List<Integer> origCapacity = new ArrayList<Integer>(); // Usado em realocações
 	List<Integer> shorterDistance = new ArrayList<Integer>(); // Usado em heurística
 	List<Integer> micePosition = new ArrayList<Integer>(); // Posição atual do rato
 	List<Integer> holeCapacity = new ArrayList<Integer>(); // Capacidade atual dos buracos
@@ -57,12 +58,16 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 				System.out.print(micePosition.get(i) + " ");
 		}
 
-		// Cria lista de buracos, caso haja ratos em buracos inexistentes, cria
-		// buracos com capacidade zero
-		for (int i = 0; i < hC.length; i++)
+		// Cria lista de buracos
+		for (int i = 0; i < hC.length; i++){
+			origCapacity.add(hC[i]);
 			holeCapacity.add(hC[i]);
-		for (int i = hC.length; i <= maxMicePosition; i++)
+		}
+		//Cria buracos com capacidade zero caso haja ratos em posições inexistentes 
+		for (int i = hC.length; i <= maxMicePosition; i++){
+			origCapacity.add(0);
 			holeCapacity.add(0);
+		}
 
 		// Subtrai a capacidade onde há ratos e atualiza heurística shorterDistance
 		if (debug)
@@ -84,14 +89,16 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		}
 
 		// Imprime mapa de capacidade atualizado
-		if (debug)
-			System.out.print("holeCapacity(MiceAndHoles): ");
-		for (int i = 0; i < holeCapacity.size(); i++)
-			if (debug)
-				System.out.print(holeCapacity.get(i) + " ");
-		if (debug)
+		if (debug) {
+			System.out.print("origCapacity(MiceAndHoles): ");
+			for (int i = 0; i < origCapacity.size(); i++)
+				System.out.print(origCapacity.get(i) + " ");
 			System.out.print("\n");
-
+			System.out.print("holeCapacity(MiceAndHoles): ");
+			for (int i = 0; i < holeCapacity.size(); i++)
+				System.out.print(holeCapacity.get(i) + " ");
+			System.out.print("\n");
+		}
 	}
 
 	public boolean ehMeta() {
@@ -125,29 +132,12 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	public List<Estado> sucessores() {
 
 		// Para o rato selecionado, crie sucessores para as possiveis posicoes
-		// que ele pode ocupar
-		if (ithMice < micePosition.size()-1) {
+		if (ithMice < micePosition.size() - 1) {
 			ithMice++;
-			if (debug) {
-				System.out
-						.print("\nSucessores para mice(" + ithMice + ") de [");
-				for (int i = 0; i < micePosition.size(); i++)
-					System.out.print(micePosition.get(i) + " ");
-				System.out.print("]\n");
-			}
-		}
-		else {
-			// Esta situação é estranha, precisa ser verificado se faz sentido
-			// mesmo zerar ithMice;
-			//Sem isso o BPI da erro
+		} else {
+			// Precisa ser verificado se faz sentido zerar ithMice
 			ithMice = 0;
-			if (debug) {
-				System.out
-						.print("\nSUCESSORES para mice(" + ithMice + ") de [");
-				for (int i = 0; i < micePosition.size(); i++)
-					System.out.print(micePosition.get(i) + " ");
-				System.out.print("]\n");
-			}
+			System.out.println("\t\t\tithMice zerado!");
 		}
 
 		List<Estado> suc = new LinkedList<Estado>(); // Lista de sucessores
@@ -155,36 +145,27 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		for (int i = 0; i < holeCapacity.size(); i++) {
 			MiceAndHoles novo = new MiceAndHoles(this);
 
-			// Desaloca buracos da copia
-			for (int j = 0; j < micePosition.size(); j++) {
-				novo.holeCapacity.set(novo.micePosition.get(j),
-						novo.holeCapacity.get(novo.micePosition.get(j)) + 1);
-			}
-
 			// Movimenta rato da copia
 			novo.ithMice = ithMice;
 			novo.micePosition.set(ithMice, i);
 
-			// Realoca buracos até o rato que está sendo processado
-			for (int j = 0; j <= ithMice; j++) {
+			// Aloca buracos para a configuração desta cópia
+			for (int j = 0; j < novo.micePosition.size(); j++) {
 				novo.holeCapacity.set(novo.micePosition.get(j),
 						novo.holeCapacity.get(novo.micePosition.get(j)) - 1);
+
+				if (debug) {
+					System.out
+							.print("\nSucessores para mice(" + ithMice + ") de [");
+					for (int k = 0; k < micePosition.size(); k++)
+						System.out.print(micePosition.get(k) + " ");
+					System.out.print("]\n");
+				}
 			}
 
 			if (!novo.poda()) {
-				// Desaloca buracos da copia
-				for (int j = 0; j <= ithMice; j++) {
-					novo.holeCapacity
-							.set(novo.micePosition.get(j), novo.holeCapacity
-									.get(novo.micePosition.get(j)) + 1);
-				}
-
-				// Realoca buracos
-				for (int j = 0; j < micePosition.size(); j++) {
-					novo.holeCapacity
-							.set(novo.micePosition.get(j), novo.holeCapacity
-									.get(novo.micePosition.get(j)) - 1);
-				}
+				if (debug)	System.out.println("Adicionando nodo referente ao rato "+novo.ithMice+
+						" ocupando a posição "+novo.micePosition.get(novo.ithMice));
 
 				suc.add(novo);
 				
@@ -199,13 +180,15 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	 * cria um estado inicial a partir de outro (copia)
 	 */
 	MiceAndHoles(MiceAndHoles modelo) {
+
+		//Cria vetores de ratos e menores distâncias copiando do nodo pai
 		for (int i = 0; i < modelo.micePosition.size(); i++) {
 			micePosition.add(modelo.micePosition.get(i));
 			shorterDistance.add(modelo.shorterDistance.get(i));
-			origPosition.add(modelo.origPosition.get(i));
 		}
+		//Cria vetor de buracos com a capacidade original (sem nenhuma alocação)
 		for (int i = 0; i < modelo.holeCapacity.size(); i++)
-			holeCapacity.add(modelo.holeCapacity.get(i));
+			holeCapacity.add(modelo.origCapacity.get(i));
 	}
 
 	public String toString() {
@@ -266,7 +249,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 			if (o instanceof MiceAndHoles) {
 				MiceAndHoles e = (MiceAndHoles) o;
 				//Se qualquer rato estiver numa posição diferente este estado é diferente
-				for (int i = 0; i < micePosition.size(); i++)
+				for (int i = 0; i <= this.ithMice; i++)
 					if (this.micePosition.get(i) != e.micePosition.get(i))
 						return false;
 				return true;
@@ -323,14 +306,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	public Estado geraAleatorio() {
 		MiceAndHoles aleatorio = new MiceAndHoles(this);
 
-		// Desaloca buracos da copia
-		for (int j = 0; j < aleatorio.micePosition.size(); j++) {
-			aleatorio.holeCapacity
-					.set(micePosition.get(j), aleatorio.holeCapacity
-							.get(aleatorio.micePosition.get(j)) + 1);
-		}
-
-		// Reposiciona ratos aleatoriamente
+		// Posiciona ratos aleatoriamente
 		for (int i = 0; i < aleatorio.micePosition.size(); i++)
 			aleatorio.micePosition.set(i,
 					Math.round((float) (Math.random() * (aleatorio.holeCapacity
@@ -343,11 +319,10 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 			System.out.print("\n");
 		}
 
-		// Realoca buracos
+		// Aloca buracos
 		for (int j = 0; j < aleatorio.micePosition.size(); j++) {
-			aleatorio.holeCapacity
-					.set(aleatorio.micePosition.get(j), aleatorio.holeCapacity
-							.get(aleatorio.micePosition.get(j)) - 1);
+			aleatorio.holeCapacity.set(aleatorio.micePosition.get(j),
+					aleatorio.holeCapacity.get(aleatorio.micePosition.get(j)) - 1);
 		}
 
 		// Atualiza o ithMice, se já está alocado -> incrementa
