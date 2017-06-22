@@ -245,7 +245,7 @@ public class AppletDemoBusca extends JApplet {
 				visitados.setText(getStatus().getVisitados() + " em "
 						+ getStatus().getTempoDecorrido()
 						+ " ms, prof.=" + getStatus().getProfundidade() +
-						", custo acc="+algBusca.getMelhorCustoAcumulado());
+						", custo acc="+getStatus().getCustoTotal());
             }
             protected void mostra() {
                 mostraFim();
@@ -387,10 +387,10 @@ public class AppletDemoBusca extends JApplet {
     	P_MiceAndHoles() { super("Mice and holes"); }
     	//Cenarios de teste
     	Estado getInicial() { 
-    		int cenario = 6;
+    		int cenario = 20;
         	if (cenario == 4) {
-        		int micePosition[] = {4, 0, 6, 7};
-        		int holeCapacity[] = {0, 1, 6, 7, 0, 0, 0, 0};
+        		int micePosition[] = {6,8,1,9};
+        		int holeCapacity[] = {1, 3, 0, 2, 0, 0, 0, 0};
         		return new MiceAndHoles(micePosition,holeCapacity,2); 
         	} else if (cenario == 5) {
             	int micePosition[] = {4, 0, 6, 7, 9};
@@ -418,8 +418,8 @@ public class AppletDemoBusca extends JApplet {
         		int holeCapacity[] = {0, 1, 6, 7, 0, 0, 0, 0, 9, 1, 0, 0, 2, 1, 0, 0, 2, 5, 0, 1};
         		return new MiceAndHoles(micePosition,holeCapacity,2); 
         	} else if (cenario == 20) {
-        		int micePosition[] = {33,34,7,10,11,8,7,18,31,32,13,39,39,40,5,9,13,40,13,24};
-        		int holeCapacity[] = {0,0,0,9,0,0,9,1,0,0,2,0,1,0,1,1,0,6,0,0,0,5,1,0,7,5,9,0,0,0,7,0,0,0,1,0,2,0,1,0};
+        		int micePosition[] = {33,34,7,10,11,8,7,18,31,32,13,39,39,38,5,9,13,38,13,24};
+        		int holeCapacity[] = {0,0,0,9,0,0,9,0,0,0,5,0,0,0,0,0,0,6,0,0,0,5,0,0,7,5,9,0,0,0,7,0,0,0,0,0,5,0,0,0};
         		return new MiceAndHoles(micePosition,holeCapacity,2); 
         	} else if (cenario == 100) {
 				int micePosition[] = {62,126,53,125,181,17,125,100,45,89,115,183,89,136,17,36,113,113,112,109,76,164,36,137,33,104,50,4,126,200,40,115,138,175,182,61,109,43,41,22,198,85,27,95,18,85,32,148,161,144,113,100,179,105,31,161,193,52,112,98,45,192,188,32,187,179,133,52,54,131,44,32,188,138,77,21,134,104,181,168,161,92,121,172,187,70,170,200,24,39,32,114,1,187,191,136,102,43,20,73};

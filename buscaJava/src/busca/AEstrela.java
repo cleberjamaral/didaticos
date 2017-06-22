@@ -6,7 +6,7 @@ import java.util.Queue;
 /**
  *   Algoritmos de Busca A*
  *
- *   @author Jomi Fred H�bner
+ *   @author Jomi Fred Hubner
  */
 public class AEstrela extends BuscaHeuristica {
     
@@ -58,11 +58,11 @@ public class AEstrela extends BuscaHeuristica {
             Nodo melhor = abertos.remove();
             status.explorando(melhor, abertos.size());
             if (melhor.estado.ehMeta()) {
-                if (melhorCustoAcumulado == 0) 
+                /*if (melhorCustoAcumulado == 0) 
                 	melhorCustoAcumulado = melhor.estado.custoAcumulado();
                 else if (melhorCustoAcumulado > melhor.estado.custoAcumulado())
                 	melhorCustoAcumulado = melhor.estado.custoAcumulado();
-
+				*/
                 //Não deveria estar entrando aqui quando encontrasse mais de uma solução (baseado nos nodos ainda abertos)? 
                 System.out.print("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * Meta encontrada!!! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
                 
@@ -91,7 +91,7 @@ public class AEstrela extends BuscaHeuristica {
     }
     
     public String toString() {
-    	return "A* - busca heur�stica"; 
+    	return "A* - busca heuristica"; 
     }
     
 }

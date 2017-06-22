@@ -157,8 +157,7 @@ public class MiceAndHolesTests {
 						newTest.setarResultados((int) algBusca.getStatus()
 								.getVisitados(), (int) algBusca.getStatus()
 								.getTempoDecorrido(), (int) algBusca
-								.getStatus().getTamAbertos(), algBusca
-								.getMelhorCustoAcumulado(), "BP");
+								.getStatus().getTamAbertos(), algBusca.getStatus().getCustoTotal(), "BP");
 					}
 					// Se este algoritmo levou muito tempo ou abriu muitos nodos
 					if ((newTest.tempoDecorrido > tempoMaximo)
@@ -183,7 +182,7 @@ public class MiceAndHolesTests {
 								.getVisitados(), (int) algBusca.getStatus()
 								.getTempoDecorrido(), (int) algBusca
 								.getStatus().getTamAbertos(), algBusca
-								.getMelhorCustoAcumulado(), "BSM");
+								.getStatus().getCustoTotal(), "BSM");
 					}
 					// Se este algoritmo levou muito tempo ou abriu muitos nodos
 					if ((newTest.tempoDecorrido > tempoMaximo)
@@ -208,7 +207,7 @@ public class MiceAndHolesTests {
 								.getVisitados(), (int) algBusca.getStatus()
 								.getTempoDecorrido(), (int) algBusca
 								.getStatus().getTamAbertos(), algBusca
-								.getMelhorCustoAcumulado(), "A*");
+								.getStatus().getCustoTotal(), "A*");
 					}
 					// Se este algoritmo levou muito tempo ou abriu muitos nodos
 					if ((newTest.tempoDecorrido > tempoMaximo)
@@ -233,7 +232,7 @@ public class MiceAndHolesTests {
 								.getVisitados(), (int) algBusca.getStatus()
 								.getTempoDecorrido(), (int) algBusca
 								.getStatus().getTamAbertos(), algBusca
-								.getMelhorCustoAcumulado(), "BL");
+								.getStatus().getCustoTotal(), "BL");
 					}
 					// Se este algoritmo levou muito tempo ou abriu muitos nodos
 					if ((newTest.tempoDecorrido > tempoMaximo)
@@ -258,7 +257,7 @@ public class MiceAndHolesTests {
 								.getVisitados(), (int) algBusca.getStatus()
 								.getTempoDecorrido(), (int) algBusca
 								.getStatus().getTamAbertos(), algBusca
-								.getMelhorCustoAcumulado(), "BPI");
+								.getStatus().getCustoTotal(), "BPI");
 					}
 					// Se este algoritmo levou muito tempo ou abriu muitos nodos
 					if ((newTest.tempoDecorrido > tempoMaximo)

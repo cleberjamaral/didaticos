@@ -3,9 +3,9 @@ package busca;
 import java.util.Comparator;
 
 /**
- *   Algoritmos de Busca heurística
+ *   Algoritmos de Busca heuristica
  *
- *   @author Jomi Fred Hübner
+ *   @author Jomi Fred Hubner
  */
 public abstract class BuscaHeuristica extends Busca {
     

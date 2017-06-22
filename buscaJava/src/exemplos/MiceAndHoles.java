@@ -33,8 +33,8 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	int ithMice = -1; // Comeca pelo -1 (a geracao de sucessores incrementa)
 	int custoAcumulado = 0;
 	static boolean debug = true;
-	static boolean showMiceMap = true;
-	static int heuristicaAtiva = 1;
+	static boolean showMiceMap = false;
+	static int heuristicaAtiva = 2;
 
 	/** operacao que gerou o estado */
 
@@ -49,7 +49,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		if (debug)
 			System.out.print("micePosition(MiceAndHoles): ");
 		for (int i = 0; i < mP.length; i++) {
-			micePosition.add(0); // Começa todos em zero
+			micePosition.add(mP[i]);
 			origPosition.add(mP[i]);
 			if (mP[i] > maxMicePosition)
 				maxMicePosition = mP[i];
@@ -64,7 +64,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		for (int i = hC.length; i <= maxMicePosition; i++)
 			holeCapacity.add(0);
 
-		// Subtrai a capacidade onde há ratos e atualiza heurística nearestHole
+		// Subtrai a capacidade onde há ratos e atualiza heurística shorterDistance
 		if (debug)
 			System.out.print("shorterDistance(MiceAndHoles): ");
 		for (int i = 0; i < micePosition.size(); i++) {
@@ -121,7 +121,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 
 		// Para o rato selecionado, crie sucessores para as possiveis posicoes
 		// que ele pode ocupar
-		if (ithMice < micePosition.size() - 1) {
+		if (ithMice < micePosition.size()-1) {
 			ithMice++;
 			if (debug) {
 				System.out
@@ -130,13 +130,15 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 					System.out.print(micePosition.get(i) + " ");
 				System.out.print("]\n");
 			}
-		} else {
+		}
+		else {
 			// Esta situação é estranha, precisa ser verificado se faz sentido
 			// mesmo zerar ithMice;
+			//Sem isso o BPI da erro
 			ithMice = 0;
 			if (debug) {
 				System.out
-						.print("\nSucessores para mice(" + ithMice + ") de [");
+						.print("\nSUCESSORES para mice(" + ithMice + ") de [");
 				for (int i = 0; i < micePosition.size(); i++)
 					System.out.print(micePosition.get(i) + " ");
 				System.out.print("]\n");
@@ -206,6 +208,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 	MiceAndHoles(MiceAndHoles modelo) {
 		for (int i = 0; i < modelo.micePosition.size(); i++) {
 			micePosition.add(modelo.micePosition.get(i));
+			shorterDistance.add(modelo.shorterDistance.get(i));
 			origPosition.add(modelo.origPosition.get(i));
 		}
 		for (int i = 0; i < modelo.holeCapacity.size(); i++)
@@ -217,7 +220,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 
 		if (debug) {
 			// Forma de impressão do relatório 1
-			r += "\t[" + ithMice + "/" + micePosition.size() + "] \n";
+			r += "\t[" + ithMice + "/" + (micePosition.size()-1) + "] \n";
 			r +=  "Orig position: ";
 			for (int j = 0; j < origPosition.size(); j++)
 				r += origPosition.get(j) + " ";
@@ -253,7 +256,8 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 				r += "\n";
 			}
 		}
-		r += "\t[" + ithMice + "/" + micePosition.size() + "] Custo total heurística("+heuristicaAtiva+"): " + custoAcumulado() + "\n";
+		r += "\t[" + ithMice + "/" + (micePosition.size()-1) +
+				"] Custo total heurística("+heuristicaAtiva+"): " + custoAcumulado() + "\n";
 		System.out.print(r);
 		return r;
 	}
@@ -266,6 +270,7 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 		try {
 			if (o instanceof MiceAndHoles) {
 				MiceAndHoles e = (MiceAndHoles) o;
+				//Se qualquer rato estiver numa posição diferente este estado é diferente
 				for (int i = 0; i < micePosition.size(); i++)
 					if (this.micePosition.get(i) != e.micePosition.get(i))
 						return false;
@@ -349,6 +354,14 @@ public class MiceAndHoles implements Estado, Heuristica, Aleatorio {
 					.set(aleatorio.micePosition.get(j), aleatorio.holeCapacity
 							.get(aleatorio.micePosition.get(j)) - 1);
 		}
+
+		// Atualiza o ithMice, se já está alocado -> incrementa
+		int j = 0;
+		for (; j < aleatorio.micePosition.size(); j++) 
+			if (aleatorio.holeCapacity.get(aleatorio.micePosition.get(j)) < 0) 
+				break;
+		aleatorio.ithMice = j;
+			
 		return aleatorio;
 	}
 

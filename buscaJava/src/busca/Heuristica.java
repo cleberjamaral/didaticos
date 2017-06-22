@@ -2,7 +2,7 @@ package busca;
 
 
 /**
- * Interface para estados que implementam a função h()
+ * Interface para estados que implementam a funcao h()
  *
  * @author  jomi
  */
