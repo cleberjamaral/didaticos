@@ -6,9 +6,9 @@ package busca;
 /**
  *   Algoritmos de Busca (geral, qquer problema)
  *
- *   Busca a solu��o por busca em profundidade iterativo.
+ *   Busca a solucao por busca em profundidade iterativo.
  *
- *   @author Jomi Fred H�bner
+ *   @author Jomi Fred Hubner
  */
 public class BuscaIterativo extends BuscaProfundidade {
 
@@ -55,7 +55,17 @@ public class BuscaIterativo extends BuscaProfundidade {
             setProfMax(prof++); // indica a profundidade maxima atual
             Nodo n = super.busca(inicial); 
             status.nroVisitados += super.status.nroVisitados; // acumula das varias buscas em profundidade
-            if (n != null) {
+
+        	if (getMaxVisitados() > 0 && status.nroVisitados > getMaxVisitados())
+            	para();
+
+        	if (getMaxAbertos() > 0 && status.tamAbertos > getMaxAbertos())
+            	para();
+        	
+        	if (getMaxTempo() > 0 && status.getTempoDecorrido() > getMaxTempo())
+        		para();
+        	
+        	if (n != null) {
 
                 //Obtenção do custo g da solução
                 if (n.estado.ehMeta()) { 

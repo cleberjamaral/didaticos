@@ -30,9 +30,9 @@ public class BuscaLargura extends Busca {
         
         while (!parar && abertos.size() > 0) {
             
-            //System.out.print("abertos "+abertos);
+            //System.out.print("*** abertos "+abertos);
             Nodo n = abertos.remove();
-            //System.out.println("pegando "+n);
+            //System.out.println("*** pegando "+n);
             status.explorando(n, abertos.size());
             if (n.estado.ehMeta()) {
             	

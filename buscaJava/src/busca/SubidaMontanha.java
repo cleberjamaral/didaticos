@@ -47,6 +47,13 @@ public class SubidaMontanha extends BuscaHeuristica {
             
             status.nroVisitados++;
             
+            if (getMaxVisitados() > 0 && status.nroVisitados > getMaxVisitados())
+            	para();
+
+            if (getMaxTempo() > 0 && status.getTempoDecorrido() > getMaxTempo())
+        		para();
+
+
             // se nao tem filho melhor que corrente
             if (((Heuristica)melhorFilho).h() >= ((Heuristica)corrente).h()) {
                 if (corrente.ehMeta()) {

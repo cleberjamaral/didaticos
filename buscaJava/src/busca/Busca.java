@@ -17,18 +17,16 @@ public abstract class Busca {
 	protected boolean parar = false;
     protected boolean podar = true;
     protected boolean usarFechado = true;
+    
+    private int maxVisitados = -1;
+    private int maxAbertos = -1;
+    private long maxTempo = -1;
 
     protected Status status = new Status(); // a classe que tem o status (model)
     protected MostraStatusConsole mstatus = null; // a classe que mostra o stauts (view)
 
     private Map<Estado,Integer> fechados = null; // mapeia o estado para um custo g
     
-//	protected int melhorCustoAcumulado = 0;
-/*
-    public int getMelhorCustoAcumulado() {
-		return melhorCustoAcumulado;
-	}
-*/
     /** busca sem mostrar status */
     public Busca() {
     }
@@ -84,10 +82,62 @@ public abstract class Busca {
     }
     
     /**
+     * Numero maximo permitido de nodos Abertos
+     */
+    public int getMaxAbertos() {
+    	return maxAbertos;
+    }
+
+    /**
+     * Configura numero maximo de nodos Abertos -1 para desabilitar
+     */
+    public void setMaxAbertos(int ma) {
+    	maxAbertos = ma;
+    }
+
+    /**
+     * Numero maximo permitido de nodos Visitados
+     */
+    public int getMaxVisitados() {
+    	return maxVisitados;
+    }
+    
+    /**
+     * Configura numero maximo de nodos Visitados -1 para desabilitar
+     */
+    public void setMaxVisitados(int mv) {
+    	maxVisitados = mv;
+    }
+    
+    /**
+     * Numero maximo permitido de nodos Visitados
+     */
+    public long getMaxTempo() {
+    	return maxTempo;
+    }
+    
+    /**
+     * Configura numero maximo de nodos Visitados -1 para desabilitar
+     */
+    public void setMaxTempo(long mt) {
+    	maxTempo = mt;
+    }
+
+    /**
      * gera uma lista de sucessores do nodo.
      */
     public List<Nodo> sucessores(Nodo pai) {
-        return soNovos(pai.estado.sucessores(),pai); // lista de todos os sucessores
+
+    	if (maxVisitados > 0 && status.nroVisitados > maxVisitados)
+        	para();
+
+    	if (maxAbertos > 0 && status.tamAbertos > maxAbertos)
+        	para();
+    	
+    	if (maxTempo > 0 && status.getTempoDecorrido() > maxTempo)
+    		para();
+
+    	return soNovos(pai.estado.sucessores(),pai); // lista de todos os sucessores
     }
 
     public List<Nodo> antecessores(Nodo pai) {

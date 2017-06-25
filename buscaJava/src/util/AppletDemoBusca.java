@@ -387,7 +387,7 @@ public class AppletDemoBusca extends JApplet {
     	P_MiceAndHoles() { super("Mice and holes"); }
     	//Cenarios de teste
     	Estado getInicial() { 
-    		int cenario = 6;
+    		int cenario = 20;
         	if (cenario == 4) {
         		int micePosition[] = {6,8,1,9};
         		int holeCapacity[] = {1, 3, 0, 2, 0, 0, 0, 0};

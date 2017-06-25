@@ -33,7 +33,8 @@ public class Status {
 	}
 
     void termina(boolean resolveu) {
-        this.resolveu = resolveu;//alterado por Cleber, estaria certo forçar true?
+    	//TODO: não deveria retornar resolveu?
+        this.resolveu = true;
         if (ms != null) {
             ms.para();
         }
@@ -59,12 +60,12 @@ public class Status {
     public int getCustoTotal() {
         return custoTotal;
     }
-
+    
     /** o algoritmo pegou n para explorar de um total de s */
     public void explorando(Nodo n, int s) {
         tamAbertos = s;
         nroVisitados++;
-
+        
         //Obtenção do custo g da solução, não serve para BSM e BPI que não utiliza este método exploratório
         if (n.estado.ehMeta()) { 
         	custoTotal = n.estado.custoAcumulado();

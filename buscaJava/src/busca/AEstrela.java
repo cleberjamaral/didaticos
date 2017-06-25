@@ -11,7 +11,7 @@ import java.util.Queue;
 public class AEstrela extends BuscaHeuristica {
     
 	int maxF = -1; // max F
-    int maxAbertos = -1; // max abertos
+    //int maxAbertos = -1; // max abertos
 	Nodo theBest;
 
     /** busca sem mostrar status */
@@ -24,14 +24,14 @@ public class AEstrela extends BuscaHeuristica {
     }
 	
 	/** seta o limite para f(), -1 � ilimitado */
-	public void setMaxF(int m) {
-		maxF = m;
-	}
+	//public void setMaxF(int m) {
+		//maxF = m;
+	//}
 
-    /** seta o limite para o nro de abertos, -1 � ilimitado */
-    public void setMaxAbertos(int m) {
-        maxAbertos = m;
-    }
+    /** seta o limite para o nro de abertos, -1 e ilimitado */
+    //public void setMaxAbertos(int m) {
+        //maxAbertos = m;
+    //}
 	
 	public Nodo getTheBest() {
 		return theBest;
@@ -39,7 +39,7 @@ public class AEstrela extends BuscaHeuristica {
 	
     /**
      *
-     * Busca a solu��o por busca em heur�stica.
+     * Busca a solucao por busca em heuristica.
      *                              ----------
      * (baseado no Russel & Norvig)
      */
@@ -58,13 +58,6 @@ public class AEstrela extends BuscaHeuristica {
             Nodo melhor = abertos.remove();
             status.explorando(melhor, abertos.size());
             if (melhor.estado.ehMeta()) {
-                /*if (melhorCustoAcumulado == 0) 
-                	melhorCustoAcumulado = melhor.estado.custoAcumulado();
-                else if (melhorCustoAcumulado > melhor.estado.custoAcumulado())
-                	melhorCustoAcumulado = melhor.estado.custoAcumulado();
-				*/
-                //Não deveria estar entrando aqui quando encontrasse mais de uma solução (baseado nos nodos ainda abertos)? 
-                System.out.print("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * Meta encontrada!!! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
                 
                 status.termina(true);
                 return melhor;
@@ -73,7 +66,7 @@ public class AEstrela extends BuscaHeuristica {
             if (maxF < 0 || melhor.f() < maxF) {
                 abertos.addAll( sucessores(melhor) );
             }
-            if (maxAbertos > 0 && abertos.size() > maxAbertos) {
+            if (getMaxAbertos() > 0 && abertos.size() > getMaxAbertos()) {
                 break;
             }
             

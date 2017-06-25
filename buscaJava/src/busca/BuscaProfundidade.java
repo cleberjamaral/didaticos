@@ -6,9 +6,9 @@ import java.util.List;
 
 /**
  *   Algoritmos de Busca (geral, qquer problema)
- *   Busca a solu��o por busca em profundidade.
+ *   Busca a solucao por busca em profundidade.
  *
- *   @author Jomi Fred H�bner
+ *   @author Jomi Fred Hubner
  */
 public class BuscaProfundidade extends Busca {
 
@@ -56,7 +56,6 @@ public class BuscaProfundidade extends Busca {
             if (n.getProfundidade() < profMax) {
                 abertos.addAll( 0, sucessores(n) );
             } else {
-            	System.out.print("ERRO! Profundidade máxima alcançada!");
             	status.termina(false);
             	return null;
             }

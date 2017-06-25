@@ -1,0 +1,1372 @@
+Apagando arquivos CSV da pasta raiz...
+
+h1028 Cenario 1
+h1BP (0004 ratos)
+
+
+h1BSM (0004 ratos)
+
+
+h1A* (0004 ratos)
+
+
+h1BL (0004 ratos)
+
+
+h1BPI (0004 ratos)
+
+h1028 Cenario 2
+h1BP (0005 ratos)
+
+
+h1BSM (0005 ratos)
+
+
+h1A* (0005 ratos)
+
+
+h1BL (0005 ratos)
+
+
+h1BPI (0005 ratos)
+
+h1028 Cenario 3
+h1BP (0006 ratos)
+
+
+h1BSM (0006 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=25865556
+
+
+h1A* (0006 ratos)
+
+
+h1BL (0006 ratos)
+
+
+h1BPI (0006 ratos)
+
+h1028 Cenario 4
+h1BP (0008 ratos)
+
+
+h1A* (0008 ratos)
+
+
+h1BL (0008 ratos)
+
+
+h1BPI (0008 ratos)
+
+h1028 Cenario 5
+h1BP (0010 ratos)
+
+
+h1A* (0010 ratos)
+
+
+h1BL (0010 ratos)
+
+
+h1BPI (0010 ratos)
+
+h1028 Cenario 6
+h1BP (0020 ratos)
+
+
+h1A* (0020 ratos)
+
+
+h1BL (0020 ratos)
+
+
+BL Cancelado! Tempo=25530, nodos abertos=1000008, nodos visitados=51242
+
+
+h1BPI (0020 ratos)
+
+h1028 Cenario 7
+h1BP (0100 ratos)
+
+
+h1A* (0100 ratos)
+
+
+A* Cancelado! Tempo=120258, nodos abertos=346223, nodos visitados=3538
+
+
+h1BPI (0100 ratos)
+
+h1028 Cenario 8
+h1BP (0300 ratos)
+
+
+h1BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=4722, nodos abertos=14987, nodos visitados=50
+
+h1028 Cenario 9
+h1BP (0500 ratos)
+
+
+BP Cancelado! Tempo=132001, nodos abertos=67076, nodos visitados=146
+
+h1028 Cenario 10
+
+h1080 Cenario 1
+h1BP (0004 ratos)
+
+
+h1BSM (0004 ratos)
+
+
+BSM Cancelado! Tempo=120002, nodos abertos=0, nodos visitados=50439144
+
+
+h1A* (0004 ratos)
+
+
+h1BL (0004 ratos)
+
+
+h1BPI (0004 ratos)
+
+h1080 Cenario 2
+h1BP (0005 ratos)
+
+
+h1A* (0005 ratos)
+
+
+h1BL (0005 ratos)
+
+
+h1BPI (0005 ratos)
+
+h1080 Cenario 3
+h1BP (0006 ratos)
+
+
+h1A* (0006 ratos)
+
+
+h1BL (0006 ratos)
+
+
+h1BPI (0006 ratos)
+
+h1080 Cenario 4
+h1BP (0008 ratos)
+
+
+h1A* (0008 ratos)
+
+
+h1BL (0008 ratos)
+
+
+h1BPI (0008 ratos)
+
+h1080 Cenario 5
+h1BP (0010 ratos)
+
+
+h1A* (0010 ratos)
+
+
+h1BL (0010 ratos)
+
+
+h1BPI (0010 ratos)
+
+h1080 Cenario 6
+h1BP (0020 ratos)
+
+
+h1A* (0020 ratos)
+
+
+h1BL (0020 ratos)
+
+
+h1BPI (0020 ratos)
+
+h1080 Cenario 7
+h1BP (0100 ratos)
+
+
+h1A* (0100 ratos)
+
+
+A* Cancelado! Tempo=120295, nodos abertos=322180, nodos visitados=10263
+
+
+h1BL (0100 ratos)
+
+
+BL Cancelado! Tempo=120399, nodos abertos=340687, nodos visitados=8435
+
+
+h1BPI (0100 ratos)
+
+h1080 Cenario 8
+h1BP (0300 ratos)
+
+
+h1BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=3095, nodos abertos=8043, nodos visitados=73
+
+h1080 Cenario 9
+h1BP (0500 ratos)
+
+h1080 Cenario 10
+h1BP (1000 ratos)
+
+
+BP Cancelado! Tempo=138619, nodos abertos=29064, nodos visitados=74
+
+h1100 Cenario 1
+h1BP (0004 ratos)
+
+
+h1BSM (0004 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=55284322
+
+
+h1A* (0004 ratos)
+
+
+h1BL (0004 ratos)
+
+
+h1BPI (0004 ratos)
+
+h1100 Cenario 2
+h1BP (0005 ratos)
+
+
+h1A* (0005 ratos)
+
+
+h1BL (0005 ratos)
+
+
+h1BPI (0005 ratos)
+
+h1100 Cenario 3
+h1BP (0006 ratos)
+
+
+h1A* (0006 ratos)
+
+
+h1BL (0006 ratos)
+
+
+h1BPI (0006 ratos)
+
+h1100 Cenario 4
+h1BP (0008 ratos)
+
+
+h1A* (0008 ratos)
+
+
+h1BL (0008 ratos)
+
+
+h1BPI (0008 ratos)
+
+h1100 Cenario 5
+h1BP (0010 ratos)
+
+
+h1A* (0010 ratos)
+
+
+h1BL (0010 ratos)
+
+
+h1BPI (0010 ratos)
+
+h1100 Cenario 6
+h1BP (0020 ratos)
+
+
+h1A* (0020 ratos)
+
+
+h1BL (0020 ratos)
+
+
+BL Cancelado! Tempo=120845, nodos abertos=895961, nodos visitados=331012
+
+
+h1BPI (0020 ratos)
+
+h1100 Cenario 7
+h1BP (0100 ratos)
+
+
+h1A* (0100 ratos)
+
+
+A* Cancelado! Tempo=120002, nodos abertos=269466, nodos visitados=53608
+
+
+h1BPI (0100 ratos)
+
+h1100 Cenario 8
+h1BP (0300 ratos)
+
+
+h1BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=2689, nodos abertos=6589, nodos visitados=82
+
+h1100 Cenario 9
+h1BP (0500 ratos)
+
+h1100 Cenario 10
+h1BP (1000 ratos)
+
+
+BP Cancelado! Tempo=135677, nodos abertos=28842, nodos visitados=90
+Apagando arquivos CSV da pasta raiz...
+
+h2028 Cenario 1
+h2BP (0004 ratos)
+
+
+h2BSM (0004 ratos)
+
+
+h2A* (0004 ratos)
+
+
+h2BL (0004 ratos)
+
+
+h2BPI (0004 ratos)
+
+h2028 Cenario 2
+h2BP (0005 ratos)
+
+
+h2BSM (0005 ratos)
+
+
+h2A* (0005 ratos)
+
+
+h2BL (0005 ratos)
+
+
+h2BPI (0005 ratos)
+
+h2028 Cenario 3
+h2BP (0006 ratos)
+
+
+h2BSM (0006 ratos)
+
+
+h2A* (0006 ratos)
+
+
+h2BL (0006 ratos)
+
+
+h2BPI (0006 ratos)
+
+h2028 Cenario 4
+h2BP (0008 ratos)
+
+
+h2BSM (0008 ratos)
+
+
+h2A* (0008 ratos)
+
+
+h2BL (0008 ratos)
+
+
+h2BPI (0008 ratos)
+
+h2028 Cenario 5
+h2BP (0010 ratos)
+
+
+h2BSM (0010 ratos)
+
+
+h2A* (0010 ratos)
+
+
+h2BL (0010 ratos)
+
+
+h2BPI (0010 ratos)
+
+h2028 Cenario 6
+h2BP (0020 ratos)
+
+
+h2BSM (0020 ratos)
+
+
+h2A* (0020 ratos)
+
+
+h2BL (0020 ratos)
+
+
+BL Cancelado! Tempo=17744, nodos abertos=1000008, nodos visitados=51242
+
+
+h2BPI (0020 ratos)
+
+h2028 Cenario 7
+h2BP (0100 ratos)
+
+
+h2BSM (0100 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=153987
+
+
+h2A* (0100 ratos)
+
+
+A* Cancelado! Tempo=120132, nodos abertos=360358, nodos visitados=3761
+
+
+h2BPI (0100 ratos)
+
+h2028 Cenario 8
+h2BP (0300 ratos)
+
+
+h2BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=4575, nodos abertos=14384, nodos visitados=48
+
+h2028 Cenario 9
+h2BP (0500 ratos)
+
+
+BP Cancelado! Tempo=126014, nodos abertos=68461, nodos visitados=149
+
+h2028 Cenario 10
+
+h2080 Cenario 1
+h2BP (0004 ratos)
+
+
+h2BSM (0004 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=57818919
+
+
+h2A* (0004 ratos)
+
+
+h2BL (0004 ratos)
+
+
+h2BPI (0004 ratos)
+
+h2080 Cenario 2
+h2BP (0005 ratos)
+
+
+h2A* (0005 ratos)
+
+
+h2BL (0005 ratos)
+
+
+h2BPI (0005 ratos)
+
+h2080 Cenario 3
+h2BP (0006 ratos)
+
+
+h2A* (0006 ratos)
+
+
+h2BL (0006 ratos)
+
+
+h2BPI (0006 ratos)
+
+h2080 Cenario 4
+h2BP (0008 ratos)
+
+
+h2A* (0008 ratos)
+
+
+h2BL (0008 ratos)
+
+
+h2BPI (0008 ratos)
+
+h2080 Cenario 5
+h2BP (0010 ratos)
+
+
+h2A* (0010 ratos)
+
+
+h2BL (0010 ratos)
+
+
+h2BPI (0010 ratos)
+
+h2080 Cenario 6
+h2BP (0020 ratos)
+
+
+h2A* (0020 ratos)
+
+
+h2BL (0020 ratos)
+
+
+h2BPI (0020 ratos)
+
+h2080 Cenario 7
+h2BP (0100 ratos)
+
+
+h2A* (0100 ratos)
+
+
+A* Cancelado! Tempo=120048, nodos abertos=345607, nodos visitados=10937
+
+
+h2BL (0100 ratos)
+
+
+BL Cancelado! Tempo=120325, nodos abertos=356595, nodos visitados=8831
+
+
+h2BPI (0100 ratos)
+
+h2080 Cenario 8
+h2BP (0300 ratos)
+
+
+h2BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=3241, nodos abertos=8043, nodos visitados=73
+
+h2080 Cenario 9
+h2BP (0500 ratos)
+
+h2080 Cenario 10
+h2BP (1000 ratos)
+
+
+BP Cancelado! Tempo=138905, nodos abertos=29064, nodos visitados=74
+
+h2100 Cenario 1
+h2BP (0004 ratos)
+
+
+h2BSM (0004 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=55795397
+
+
+h2A* (0004 ratos)
+
+
+h2BL (0004 ratos)
+
+
+h2BPI (0004 ratos)
+
+h2100 Cenario 2
+h2BP (0005 ratos)
+
+
+h2A* (0005 ratos)
+
+
+h2BL (0005 ratos)
+
+
+h2BPI (0005 ratos)
+
+h2100 Cenario 3
+h2BP (0006 ratos)
+
+
+h2A* (0006 ratos)
+
+
+h2BL (0006 ratos)
+
+
+h2BPI (0006 ratos)
+
+h2100 Cenario 4
+h2BP (0008 ratos)
+
+
+h2A* (0008 ratos)
+
+
+h2BL (0008 ratos)
+
+
+h2BPI (0008 ratos)
+
+h2100 Cenario 5
+h2BP (0010 ratos)
+
+
+h2A* (0010 ratos)
+
+
+h2BL (0010 ratos)
+
+
+h2BPI (0010 ratos)
+
+h2100 Cenario 6
+h2BP (0020 ratos)
+
+
+h2A* (0020 ratos)
+
+
+A* Cancelado! Tempo=121011, nodos abertos=879311, nodos visitados=341956
+
+
+h2BL (0020 ratos)
+
+
+BL Cancelado! Tempo=120203, nodos abertos=904874, nodos visitados=334447
+
+
+h2BPI (0020 ratos)
+
+h2100 Cenario 7
+h2BP (0100 ratos)
+
+
+h2BPI (0100 ratos)
+
+h2100 Cenario 8
+h2BP (0300 ratos)
+
+
+h2BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=2758, nodos abertos=6522, nodos visitados=81
+
+h2100 Cenario 9
+h2BP (0500 ratos)
+
+h2100 Cenario 10
+h2BP (1000 ratos)
+
+
+BP Cancelado! Tempo=138154, nodos abertos=28842, nodos visitados=90
+Apagando arquivos CSV da pasta raiz...
+
+h3028 Cenario 1
+h3BP (0004 ratos)
+
+
+h3BSM (0004 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=51696099
+
+
+h3A* (0004 ratos)
+
+
+h3BL (0004 ratos)
+
+
+h3BPI (0004 ratos)
+
+h3028 Cenario 2
+h3BP (0005 ratos)
+
+
+h3A* (0005 ratos)
+
+
+h3BL (0005 ratos)
+
+
+h3BPI (0005 ratos)
+
+h3028 Cenario 3
+h3BP (0006 ratos)
+
+
+h3A* (0006 ratos)
+
+
+h3BL (0006 ratos)
+
+
+h3BPI (0006 ratos)
+
+h3028 Cenario 4
+h3BP (0008 ratos)
+
+
+h3A* (0008 ratos)
+
+
+A* Cancelado! Tempo=9043, nodos abertos=999998, nodos visitados=142858
+
+
+h3BL (0008 ratos)
+
+
+BL Cancelado! Tempo=6474, nodos abertos=1000006, nodos visitados=142859
+
+
+h3BPI (0008 ratos)
+
+h3028 Cenario 5
+h3BP (0010 ratos)
+
+
+h3BPI (0010 ratos)
+
+h3028 Cenario 6
+h3BP (0020 ratos)
+
+
+h3BPI (0020 ratos)
+
+h3028 Cenario 7
+h3BP (0100 ratos)
+
+
+h3BPI (0100 ratos)
+
+h3028 Cenario 8
+h3BP (0300 ratos)
+
+
+h3BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=4595, nodos abertos=14987, nodos visitados=50
+
+h3028 Cenario 9
+h3BP (0500 ratos)
+
+
+BP Cancelado! Tempo=129758, nodos abertos=68921, nodos visitados=150
+
+h3028 Cenario 10
+
+h3080 Cenario 1
+h3BP (0004 ratos)
+
+
+h3BSM (0004 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=49669315
+
+
+h3A* (0004 ratos)
+
+
+h3BL (0004 ratos)
+
+
+h3BPI (0004 ratos)
+
+h3080 Cenario 2
+h3BP (0005 ratos)
+
+
+h3A* (0005 ratos)
+
+
+h3BL (0005 ratos)
+
+
+h3BPI (0005 ratos)
+
+h3080 Cenario 3
+h3BP (0006 ratos)
+
+
+h3A* (0006 ratos)
+
+
+h3BL (0006 ratos)
+
+
+h3BPI (0006 ratos)
+
+h3080 Cenario 4
+h3BP (0008 ratos)
+
+
+h3A* (0008 ratos)
+
+
+h3BL (0008 ratos)
+
+
+h3BPI (0008 ratos)
+
+h3080 Cenario 5
+h3BP (0010 ratos)
+
+
+h3A* (0010 ratos)
+
+
+h3BL (0010 ratos)
+
+
+h3BPI (0010 ratos)
+
+h3080 Cenario 6
+h3BP (0020 ratos)
+
+
+h3A* (0020 ratos)
+
+
+A* Cancelado! Tempo=113457, nodos abertos=999998, nodos visitados=238325
+
+
+h3BL (0020 ratos)
+
+
+BL Cancelado! Tempo=120949, nodos abertos=988311, nodos visitados=235410
+
+
+h3BPI (0020 ratos)
+
+h3080 Cenario 7
+h3BP (0100 ratos)
+
+
+h3BPI (0100 ratos)
+
+h3080 Cenario 8
+h3BP (0300 ratos)
+
+
+h3BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=3220, nodos abertos=7941, nodos visitados=72
+
+h3080 Cenario 9
+h3BP (0500 ratos)
+
+h3080 Cenario 10
+h3BP (1000 ratos)
+
+
+BP Cancelado! Tempo=140879, nodos abertos=29064, nodos visitados=74
+
+h3100 Cenario 1
+h3BP (0004 ratos)
+
+
+h3BSM (0004 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=55675663
+
+
+h3A* (0004 ratos)
+
+
+h3BL (0004 ratos)
+
+
+h3BPI (0004 ratos)
+
+h3100 Cenario 2
+h3BP (0005 ratos)
+
+
+h3A* (0005 ratos)
+
+
+h3BL (0005 ratos)
+
+
+h3BPI (0005 ratos)
+
+h3100 Cenario 3
+h3BP (0006 ratos)
+
+
+h3A* (0006 ratos)
+
+
+h3BL (0006 ratos)
+
+
+h3BPI (0006 ratos)
+
+h3100 Cenario 4
+h3BP (0008 ratos)
+
+
+h3A* (0008 ratos)
+
+
+h3BL (0008 ratos)
+
+
+h3BPI (0008 ratos)
+
+h3100 Cenario 5
+h3BP (0010 ratos)
+
+
+h3A* (0010 ratos)
+
+
+h3BL (0010 ratos)
+
+
+h3BPI (0010 ratos)
+
+h3100 Cenario 6
+h3BP (0020 ratos)
+
+
+h3A* (0020 ratos)
+
+
+A* Cancelado! Tempo=120791, nodos abertos=917402, nodos visitados=289304
+
+
+h3BL (0020 ratos)
+
+
+BL Cancelado! Tempo=120735, nodos abertos=929714, nodos visitados=293177
+
+
+h3BPI (0020 ratos)
+
+h3100 Cenario 7
+h3BP (0100 ratos)
+
+
+h3BPI (0100 ratos)
+
+h3100 Cenario 8
+h3BP (0300 ratos)
+
+
+h3BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=2898, nodos abertos=6522, nodos visitados=81
+
+h3100 Cenario 9
+h3BP (0500 ratos)
+
+h3100 Cenario 10
+h3BP (1000 ratos)
+
+
+BP Cancelado! Tempo=138316, nodos abertos=28842, nodos visitados=90
+Apagando arquivos CSV da pasta raiz...
+
+h4028 Cenario 1
+h4BP (0004 ratos)
+
+
+h4BSM (0004 ratos)
+
+
+h4A* (0004 ratos)
+
+
+h4BL (0004 ratos)
+
+
+h4BPI (0004 ratos)
+
+h4028 Cenario 2
+h4BP (0005 ratos)
+
+
+h4BSM (0005 ratos)
+
+
+h4A* (0005 ratos)
+
+
+h4BL (0005 ratos)
+
+
+h4BPI (0005 ratos)
+
+h4028 Cenario 3
+h4BP (0006 ratos)
+
+
+h4BSM (0006 ratos)
+
+
+h4A* (0006 ratos)
+
+
+h4BL (0006 ratos)
+
+
+h4BPI (0006 ratos)
+
+h4028 Cenario 4
+h4BP (0008 ratos)
+
+
+h4BSM (0008 ratos)
+
+
+h4A* (0008 ratos)
+
+
+h4BL (0008 ratos)
+
+
+h4BPI (0008 ratos)
+
+h4028 Cenario 5
+h4BP (0010 ratos)
+
+
+h4BSM (0010 ratos)
+
+
+h4A* (0010 ratos)
+
+
+A* Cancelado! Tempo=23689, nodos abertos=999998, nodos visitados=105240
+
+
+h4BL (0010 ratos)
+
+
+BL Cancelado! Tempo=21954, nodos abertos=1000010, nodos visitados=104190
+
+
+h4BPI (0010 ratos)
+
+h4028 Cenario 6
+h4BP (0020 ratos)
+
+
+h4BSM (0020 ratos)
+
+
+h4BPI (0020 ratos)
+
+h4028 Cenario 7
+h4BP (0100 ratos)
+
+
+h4BSM (0100 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=126036
+
+
+h4BPI (0100 ratos)
+
+
+BPI Cancelado! Tempo=4062, nodos abertos=4919, nodos visitados=53
+
+h4028 Cenario 8
+h4BP (0300 ratos)
+
+
+BP Cancelado! Tempo=122266, nodos abertos=16793, nodos visitados=56
+
+h4028 Cenario 9
+
+h4028 Cenario 10
+
+h4080 Cenario 1
+h4BP (0004 ratos)
+
+
+h4BSM (0004 ratos)
+
+
+h4A* (0004 ratos)
+
+
+h4BL (0004 ratos)
+
+
+h4BPI (0004 ratos)
+
+h4080 Cenario 2
+h4BP (0005 ratos)
+
+
+h4BSM (0005 ratos)
+
+
+h4A* (0005 ratos)
+
+
+h4BL (0005 ratos)
+
+
+h4BPI (0005 ratos)
+
+h4080 Cenario 3
+h4BP (0006 ratos)
+
+
+h4BSM (0006 ratos)
+
+
+h4A* (0006 ratos)
+
+
+h4BL (0006 ratos)
+
+
+h4BPI (0006 ratos)
+
+h4080 Cenario 4
+h4BP (0008 ratos)
+
+
+h4BSM (0008 ratos)
+
+
+h4A* (0008 ratos)
+
+
+h4BL (0008 ratos)
+
+
+h4BPI (0008 ratos)
+
+h4080 Cenario 5
+h4BP (0010 ratos)
+
+
+h4BSM (0010 ratos)
+
+
+h4A* (0010 ratos)
+
+
+h4BL (0010 ratos)
+
+
+h4BPI (0010 ratos)
+
+h4080 Cenario 6
+h4BP (0020 ratos)
+
+
+h4BSM (0020 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=3228991
+
+
+h4A* (0020 ratos)
+
+
+A* Cancelado! Tempo=120164, nodos abertos=857390, nodos visitados=247165
+
+
+h4BL (0020 ratos)
+
+
+BL Cancelado! Tempo=120559, nodos abertos=895189, nodos visitados=243449
+
+
+h4BPI (0020 ratos)
+
+h4080 Cenario 7
+h4BP (0100 ratos)
+
+
+h4BPI (0100 ratos)
+
+
+BPI Cancelado! Tempo=2178, nodos abertos=2547, nodos visitados=94
+
+h4080 Cenario 8
+h4BP (0300 ratos)
+
+
+BP Cancelado! Tempo=120734, nodos abertos=16664, nodos visitados=181
+
+h4080 Cenario 9
+
+h4080 Cenario 10
+
+h4100 Cenario 1
+h4BP (0004 ratos)
+
+
+h4BSM (0004 ratos)
+
+
+h4A* (0004 ratos)
+
+
+h4BL (0004 ratos)
+
+
+h4BPI (0004 ratos)
+
+h4100 Cenario 2
+h4BP (0005 ratos)
+
+
+h4BSM (0005 ratos)
+
+
+h4A* (0005 ratos)
+
+
+h4BL (0005 ratos)
+
+
+h4BPI (0005 ratos)
+
+h4100 Cenario 3
+h4BP (0006 ratos)
+
+
+h4BSM (0006 ratos)
+
+
+h4A* (0006 ratos)
+
+
+h4BL (0006 ratos)
+
+
+h4BPI (0006 ratos)
+
+h4100 Cenario 4
+h4BP (0008 ratos)
+
+
+h4BSM (0008 ratos)
+
+
+h4A* (0008 ratos)
+
+
+h4BL (0008 ratos)
+
+
+h4BPI (0008 ratos)
+
+h4100 Cenario 5
+h4BP (0010 ratos)
+
+
+h4BSM (0010 ratos)
+
+
+h4A* (0010 ratos)
+
+
+h4BL (0010 ratos)
+
+
+h4BPI (0010 ratos)
+
+h4100 Cenario 6
+h4BP (0020 ratos)
+
+
+h4BSM (0020 ratos)
+
+
+BSM Cancelado! Tempo=120001, nodos abertos=0, nodos visitados=3328394
+
+
+h4A* (0020 ratos)
+
+
+h4BL (0020 ratos)
+
+
+BL Cancelado! Tempo=120241, nodos abertos=749699, nodos visitados=355808
+
+
+h4BPI (0020 ratos)
+
+h4100 Cenario 7
+h4BP (0100 ratos)
+
+
+h4A* (0100 ratos)
+
+
+A* Cancelado! Tempo=120036, nodos abertos=134620, nodos visitados=4111
+
+
+h4BPI (0100 ratos)
+
+h4100 Cenario 8
+h4BP (0300 ratos)
+
+
+h4BPI (0300 ratos)
+
+
+BPI Cancelado! Tempo=12549, nodos abertos=1735, nodos visitados=20
+
+h4100 Cenario 9
+h4BP (0500 ratos)
+
+
+BP Cancelado! Tempo=123130, nodos abertos=6485, nodos visitados=40
+
+h4100 Cenario 10
+Digite sua opcao de busca { 'S' para Sair }
+	1  -  Rodar um algoritmo por vez
+	2  -  Rodar cenarios com taxa de ocupacao fixa em 28%
+	3  -  Rodar cenarios com taxa de ocupacao fixa em 80%
+	4  -  Rodar cenarios com taxa de ocupacao fixa em 100%
+	5  -  Rodar cenarios com taxas de 28, 80 e 100%
+	6  -  Rodar heuristicas de 1 a 4 com taxas de 28, 80 e 100%
+Opcao: 
