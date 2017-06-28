@@ -52,58 +52,41 @@ public class MiceAndHolesTests {
 			System.out.print("Opcao: ");
 			str = teclado.readLine().toUpperCase();
 			
-			int contexto, cenario, heuristica;
-			System.out.print("\tDigite a heuristica: 1, 2, 3 ou 4\n");
-			heuristica = Integer.parseInt(teclado.readLine());
-			switch (Integer.parseInt(str)) {
-			case 1:
-				System.out.print("\tDigite o contexto: 1 a 3 (28, 80 ou 100% de densidade)\n");
-				contexto = Integer.parseInt(teclado.readLine());
-				System.out.print("\tDigite o cenario: 1 a 10 (4 a 1000 ratos)\n");
-				cenario = Integer.parseInt(teclado.readLine());
-				if (contexto == 1){
-					rodarCenariosDensidade_028(cenario, heuristica);
-				}else if (contexto == 2){
-					rodarCenariosDensidade_080(cenario, heuristica);
-				}else if (contexto == 3){
-					rodarCenariosDensidade_100(cenario, heuristica);
-				}else{
-					System.out.println("Opcao invalida!");
-				}
-				break;
-			case 2: 
-				rodarCenariosDensidade_028(-1, heuristica);
-				gravarResultados("h"+heuristica+"028");
-				break;
-			case 3: 
-				rodarCenariosDensidade_080(-1, heuristica);
-				gravarResultados("h"+heuristica+"080");
-				break;
-			case 4: 
-				rodarCenariosDensidade_100(-1, heuristica);
-				gravarResultados("h"+heuristica+"100");
-				break;
-			case 5: 
-				System.setOut(ps);
+			if (!str.equals("S")) {
+				int contexto, cenario, heuristica;
+				System.out.print("\tDigite a heuristica: 1 a 5\n");
+				heuristica = Integer.parseInt(teclado.readLine());
+				switch (Integer.parseInt(str)) {
+				case 1:
+					System.out.print("\tDigite o contexto: 1 a 3 (28, 80 ou 100% de densidade)\n");
+					contexto = Integer.parseInt(teclado.readLine());
+					System.out.print("\tDigite o cenario: 1 a 10 (4 a 1000 ratos)\n");
+					cenario = Integer.parseInt(teclado.readLine());
+					if (contexto == 1){
+						rodarCenariosDensidade_028(cenario, heuristica);
+					}else if (contexto == 2){
+						rodarCenariosDensidade_080(cenario, heuristica);
+					}else if (contexto == 3){
+						rodarCenariosDensidade_100(cenario, heuristica);
+					}else{
+						System.out.println("Opcao invalida!");
+					}
+					break;
+				case 2: 
+					rodarCenariosDensidade_028(-1, heuristica);
+					gravarResultados("h"+heuristica+"028");
+					break;
+				case 3: 
+					rodarCenariosDensidade_080(-1, heuristica);
+					gravarResultados("h"+heuristica+"080");
+					break;
+				case 4: 
+					rodarCenariosDensidade_100(-1, heuristica);
+					gravarResultados("h"+heuristica+"100");
+					break;
+				case 5: 
+					System.setOut(ps);
 
-				System.out.println("Apagando arquivos CSV da pasta raiz...");
-				Runtime.getRuntime().exec(new String[] { "sh", "-c", "rm h"+heuristica+"*.csv" });
-
-				rodarCenariosDensidade_028(-1, heuristica);
-				gravarResultados("h"+heuristica+"028");
-
-				rodarCenariosDensidade_080(-1, heuristica);
-				gravarResultados("h"+heuristica+"080");
-
-				rodarCenariosDensidade_100(-1, heuristica);
-				gravarResultados("h"+heuristica+"100");
-
-				System.setOut(System.out);
-				break;
-			case 6: 
-				System.setOut(ps);
-
-				for (;heuristica <= 4; heuristica++){
 					System.out.println("Apagando arquivos CSV da pasta raiz...");
 					Runtime.getRuntime().exec(new String[] { "sh", "-c", "rm h"+heuristica+"*.csv" });
 
@@ -114,16 +97,36 @@ public class MiceAndHolesTests {
 					gravarResultados("h"+heuristica+"080");
 
 					rodarCenariosDensidade_100(-1, heuristica);
-					gravarResultados("h"+heuristica+"100");					
+					gravarResultados("h"+heuristica+"100");
+
+					System.setOut(System.out);
+					break;
+				case 6: 
+					System.setOut(ps);
+
+					for (;heuristica <= 5; heuristica++){
+						System.out.println("Apagando arquivos CSV da pasta raiz...");
+						Runtime.getRuntime().exec(new String[] { "sh", "-c", "rm h"+heuristica+"*.csv" });
+
+						rodarCenariosDensidade_028(-1, heuristica);
+						gravarResultados("h"+heuristica+"028");
+
+						rodarCenariosDensidade_080(-1, heuristica);
+						gravarResultados("h"+heuristica+"080");
+
+						rodarCenariosDensidade_100(-1, heuristica);
+						gravarResultados("h"+heuristica+"100");					
+					}
+					
+					System.setOut(System.out);
+					break;
+				default:
+					System.out.println("Opcao invalida!");
+					break;
 				}
-				
-				System.setOut(System.out);
-				break;
-			default:
-				System.out.println("Opcao invalida!");
-				break;
 			}
 		}
+		System.out.println("Saindo...");
 	}
 
 	public static void rodarAlgoritmosh2(int mP[], int hC[], int heuristica) throws Exception {
