@@ -23,9 +23,8 @@ public class OrganizationalRole implements Estado, Antecessor{
     
 	GoalNode headGoal;
 	private static int nSolucoes = 0;
-	private List<String> roleSkills = new ArrayList<String>();
+	private Set<String> roleSkills = new HashSet<String>();
 	private List<GoalNode> goalSuccessors = new ArrayList<GoalNode>();
-	private boolean allDone = false;
 	private List<OrganizationalRole> roleSuccessors = new ArrayList<OrganizationalRole>();
 
 	private OrganizationalRole roleParent;
@@ -151,15 +150,16 @@ public class OrganizationalRole implements Estado, Antecessor{
 	}
 
 	public void joinAnother(List<Estado> suc, GoalNode goalToBeAssociatedToRole) {
-		
-		if (this.roleSkills.retainAll(goalToBeAssociatedToRole.getSkills())) {
+		//if the goal has skills (not null) and this node has all skills, so we can join the goals in an unique role 
+		if ((this.roleSkills.containsAll(goalToBeAssociatedToRole.getSkills())) && (!goalToBeAssociatedToRole.getSkills().isEmpty())) {
+			System.out.println(" - - this: " + this.roleSkills.toString() + " - goalSkills: " + goalToBeAssociatedToRole.getSkills().toString());
 			//Creates a new state which is the same role but with another equal link (just to make it different)
 			OrganizationalRole newRole = new OrganizationalRole(goalToBeAssociatedToRole);
 			for (String skill : goalToBeAssociatedToRole.getSkills())
 				newRole.roleSkills.add(skill);
 			newRole.roleParent = this.roleParent;
 			for (String s : this.graphLinks) newRole.graphLinks.add(s);
-			newRole.graphLinks.add(this.roleParent.headGoal.goalName + "->" + newRole.headGoal.goalName);
+			newRole.graphLinks.add(newRole.headGoal.goalName + " [shape=plaintext,comment=joined]");
 
 			for (GoalNode goal : this.goalSuccessors) {
 				if (goal != newRole.headGoal)
