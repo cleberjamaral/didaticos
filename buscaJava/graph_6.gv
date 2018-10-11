@@ -1,6 +1,0 @@
-digraph G {
-	execute;
-	ePaint [shape=plaintext,comment=joined];
-	execute->iPaint;
-	execute->contractWinner;
-}

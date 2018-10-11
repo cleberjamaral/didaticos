@@ -62,6 +62,25 @@ public class Status {
     }
     
     /** o algoritmo pegou n para explorar de um total de s */
+    public boolean explorandoEhMeta(Nodo n, int s) {
+        boolean ehMeta = false;
+    	tamAbertos = s;
+        nroVisitados++;
+        
+        
+        //Obtenção do custo g da solução, não serve para BSM e BPI que não utiliza este método exploratório
+        if (n.estado.ehMeta()) { 
+        	custoTotal = n.estado.custoAcumulado();
+        	ehMeta = true;
+        }
+        	
+        if (n.getProfundidade() > profundidadeMax) {
+            profundidadeMax = n.getProfundidade();
+        }    
+        return ehMeta;
+    }
+
+    /** o algoritmo pegou n para explorar de um total de s */
     public void explorando(Nodo n, int s) {
         tamAbertos = s;
         nroVisitados++;

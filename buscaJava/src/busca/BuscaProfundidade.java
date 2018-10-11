@@ -47,8 +47,10 @@ public class BuscaProfundidade extends Busca {
         while (!parar && abertos.size() > 0) {
             
             Nodo n = abertos.remove(0);
-            status.explorando(n,abertos.size());
-            if (n.estado.ehMeta()) {
+//            status.explorando(n,abertos.size());
+//            if (n.estado.ehMeta()) {
+            //Para evitar que ehMeta do Estado seja chamada duas vezes seguidas
+            if (status.explorandoEhMeta(n,abertos.size())) {
                 status.termina(true);
                 return n;
             }
