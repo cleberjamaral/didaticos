@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import busca.Antecessor;
 import busca.BuscaIterativo;
@@ -28,7 +30,7 @@ public class OrganizationalRole implements Estado, Antecessor{
 
 	private OrganizationalRole roleParent;
 	
-	private List<String> graphLinks = new ArrayList<String>();
+	private Set<String> graphLinks = new HashSet<String>();
 	
     public String getDescricao() {
         return "Empty\n";
@@ -45,23 +47,21 @@ public class OrganizationalRole implements Estado, Antecessor{
     public boolean ehMeta(){
 
     	System.out.println("State: "+this.headGoal.goalName+", nSucc: "+goalSuccessors.size());
-    	//if (goalSuccessors.size() <= 0)
-    	if (allDone)
+    	if (goalSuccessors.size() <= 0)
     	{
     		nSolucoes++;
-        	System.out.println("GOAL ACHIEVED!\n");
-        	//OrganizationalRole rootRole = getRootRole(this);
+        	System.out.println("GOAL ACHIEVED! Solution: #" + nSolucoes);
         	
     		try (FileWriter fw = new FileWriter("graph_"+nSolucoes+".gv", false);
     				BufferedWriter bw = new BufferedWriter(fw);
     				PrintWriter out = new PrintWriter(bw)) {
             	out.print("digraph G {\n");
             	if (this.roleParent != null) 
-            		out.print(this.roleParent.headGoal.goalName+";\n");
+            		out.print("\t" + this.roleParent.headGoal.goalName + ";\n");
             	else
-            		out.print("root;\n");
+            		out.print("\troot;\n");
             		
-    			for (String s : this.graphLinks) out.print(s+";\n");
+    			for (String s : this.graphLinks) out.print("\t" + s + ";\n");
             	out.print("}\n");
     		} catch (IOException e) {
     		}
@@ -94,22 +94,8 @@ public class OrganizationalRole implements Estado, Antecessor{
 			addChild(suc, goalToBeAssociated);
 			// Add brother
 			addBrother(suc, goalToBeAssociated);
-			
 			// Join to another
-			OrganizationalRole rootRole = getRootRole(this);
-			for (OrganizationalRole tempRole : rootRole.roleSuccessors) {
-				if (tempRole.roleSkills.retainAll(goalToBeAssociated.getSkills())) {
-//					OrganizationalRole novo = new OrganizationalRole(temp);
-//					for (String skill : temp.getSkills()) novo.roleSkills.add(skill);
-//					novo.roleParent = rootRole;
-//					graphLinks.add(rootRole.headGoal.goalName + "->" + novo.headGoal.goalName);
-					System.out.println("addLink: " + goalToBeAssociated.goalName);					
-//					System.out.println("addLink: " + novo.toString());
-//					suc.add(novo);
-//					roleSuccessors.add(novo);
-				}
-			}
-
+			joinAnother(suc , goalToBeAssociated);
 		}
 		
 		return suc;
@@ -125,21 +111,17 @@ public class OrganizationalRole implements Estado, Antecessor{
 			//The new role is a child of the current state (current role)
 			newRole.roleParent = this;
 			for (String s : this.graphLinks) newRole.graphLinks.add(s);
-			newRole.graphLinks.add("\t" + this.headGoal.goalName + "->" + newRole.headGoal.goalName);
-			newRole.graphLinks.add("\troot [comment=\"" + newRole.headGoal.goalName +"\"];");
+			newRole.graphLinks.add(this.headGoal.goalName + "->" + newRole.headGoal.goalName);
 
-			for (GoalNode goal : headGoal.getSuccessors()) {
+			for (GoalNode goal : this.goalSuccessors) {
 				if (goal != newRole.headGoal)
 					newRole.goalSuccessors.add(goal);
 			}
 			
-			//Testing...
-			if (newRole.goalSuccessors.size() == 0) newRole.allDone = true;
-			
-			System.out.println(":::debug: ");
-			for (String s : newRole.graphLinks) System.out.println(s);
+			System.out.print("addChild: " + newRole.toString() + ", Links: [ ");
+			for (String s : newRole.graphLinks) System.out.print(s + " ");
+			System.out.println("], nSucc: " + newRole.goalSuccessors.size());
 
-			System.out.println("addChild: " + newRole.toString() + " nSucc: " + newRole.goalSuccessors.size());
 			suc.add(newRole);
 			roleSuccessors.add(newRole);
 		}
@@ -152,24 +134,62 @@ public class OrganizationalRole implements Estado, Antecessor{
 				newRole.roleSkills.add(skill);
 			newRole.roleParent = this.roleParent;
 			for (String s : this.graphLinks) newRole.graphLinks.add(s);
-			newRole.graphLinks.add("\t" + this.roleParent.headGoal.goalName + "->" + newRole.headGoal.goalName);
-			newRole.graphLinks.add("\troot [comment=\"" + newRole.headGoal.goalName +"\"];");
+			newRole.graphLinks.add(this.roleParent.headGoal.goalName + "->" + newRole.headGoal.goalName);
 
-			for (GoalNode goal : headGoal.getSuccessors()) {
+			for (GoalNode goal : this.goalSuccessors) {
 				if (goal != newRole.headGoal)
 					newRole.goalSuccessors.add(goal);
 			}
-			if (newRole.goalSuccessors.size() == 0) newRole.allDone = true;
 
-			System.out.println(":::debug: ");
-			for (String s : newRole.graphLinks) System.out.println(s);
+			System.out.print("addBrother: " + newRole.toString() + ", Links: [ ");
+			for (String s : newRole.graphLinks) System.out.print(s + " ");
+			System.out.println("], nSucc: " + newRole.goalSuccessors.size());
 
-			System.out.println("addBrother: " + newRole.toString() + " nSucc: " + newRole.goalSuccessors.size());
 			suc.add(newRole);
 			roleSuccessors.add(newRole);
 		}
 	}
 
+	public void joinAnother(List<Estado> suc, GoalNode goalToBeAssociatedToRole) {
+		
+		if (this.roleSkills.retainAll(goalToBeAssociatedToRole.getSkills())) {
+			//Creates a new state which is the same role but with another equal link (just to make it different)
+			OrganizationalRole newRole = new OrganizationalRole(goalToBeAssociatedToRole);
+			for (String skill : goalToBeAssociatedToRole.getSkills())
+				newRole.roleSkills.add(skill);
+			newRole.roleParent = this.roleParent;
+			for (String s : this.graphLinks) newRole.graphLinks.add(s);
+			newRole.graphLinks.add(this.roleParent.headGoal.goalName + "->" + newRole.headGoal.goalName);
+
+			for (GoalNode goal : this.goalSuccessors) {
+				if (goal != newRole.headGoal)
+					newRole.goalSuccessors.add(goal);
+			}
+
+			System.out.print("joinAnother: " + newRole.toString() + ", Links: [ ");
+			for (String s : newRole.graphLinks) System.out.print(s + " ");
+			System.out.println("], nSucc: " + newRole.goalSuccessors.size());
+
+			suc.add(newRole);
+			roleSuccessors.add(newRole);
+		}
+
+		
+//		OrganizationalRole rootRole = getRootRole(this);
+//		for (OrganizationalRole tempRole : rootRole.roleSuccessors) {
+//			if (tempRole.roleSkills.retainAll(goalToBeAssociated.getSkills())) {
+//				OrganizationalRole novo = new OrganizationalRole(goalToBeAssociated);
+////				for (String skill : temp.getSkills()) novo.roleSkills.add(skill);
+////				novo.roleParent = rootRole;
+////				graphLinks.add(rootRole.headGoal.goalName + "->" + novo.headGoal.goalName);
+//				System.out.println("addLink: " + goalToBeAssociated.goalName);					
+////				System.out.println("addLink: " + novo.toString());
+////				suc.add(novo);
+////				roleSuccessors.add(novo);
+//			}		
+	}
+
+	
 	/** Lista de antecessores, para busca bidirecional */
 	public List<Estado> antecessores() {
 		return sucessores();
@@ -191,9 +211,7 @@ public class OrganizationalRole implements Estado, Antecessor{
 		
 		try {
 			if (o instanceof OrganizationalRole) {
-				OrganizationalRole e = (OrganizationalRole) o;
-				//Se qualquer rato estiver numa posicao diferente este estado e diferente
-				if (e.graphLinks.equals(((OrganizationalRole) o).graphLinks)) {
+				if (this.graphLinks.equals(((OrganizationalRole) o).graphLinks)) {
 					//System.out.println("equal!!");
 					//ehMeta();
 					return true;
