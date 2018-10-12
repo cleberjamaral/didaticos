@@ -41,6 +41,7 @@ public class OrganizationalRole implements Estado, Antecessor{
     	
     	if (gn.parent == null) {
     		for (GoalNode goal : headGoal.getSuccessors()) goalSuccessors.add(goal);
+        	rolesList.add(this);
     	}
     }
     
@@ -55,14 +56,22 @@ public class OrganizationalRole implements Estado, Antecessor{
         		try (FileWriter fw = new FileWriter("graph_"+isGoalList.size()+".gv", false);
         				BufferedWriter bw = new BufferedWriter(fw);
         				PrintWriter out = new PrintWriter(bw)) {
-                	out.print("digraph G {\n");
-                	if (this.roleParent != null) 
-                		out.print("\t" + this.roleParent.headGoal.goalName + ";\n");
-                	else
-                		out.print("\troot;\n");
+                	out.println("digraph G {");
+            		for (OrganizationalRole or : rolesList) {
+            			//out.println(or.headGoal.goalName + ";");
+            			out.print(
+            					"\t\"" + or.headGoal.goalName + 
+            					"\" [ style = \"filled, bold\" penwidth = 5 fillcolor" +
+            					"= \"white\" fontname = \"Courier New\" shape = \"Mrecord\" label " + 
+            					"=<<table border=\"0\" cellborder=\"0\" cellpadding=\"3\" bgcolor=\"white\">" + 
+            					"<tr><td bgcolor=\"black\" align=\"center\">" +
+            					"<font color=\"white\">" + or.headGoal.goalName + "</font></td></tr>");
+            			for (String s : or.roleSkills) out.print("<tr><td align=\"left\">" + s + "</td></tr>");
+            			out.println("</table>> ];");
+            		}
                 		
-        			for (String s : this.graphLinks) out.print("\t" + s + ";\n");
-                	out.print("}\n");
+        			for (String s : this.graphLinks) out.println("\t" + s + ";");
+                	out.println("}");
         		} catch (IOException e) {
         		}
         	} else {
@@ -95,65 +104,52 @@ public class OrganizationalRole implements Estado, Antecessor{
 					+ "] - Size: " + headGoal.getSuccessors().size());
 
 		for (GoalNode goalToBeAssociated : goalSuccessors) {
-			// Add child
-			addChild(suc, goalToBeAssociated);
-			// Add brother
-			addBrother(suc, goalToBeAssociated);
-			// Join to another
+			addRelation(suc, goalToBeAssociated);
 			joinAnother(suc, goalToBeAssociated);
 		}
-		
-		//for (OrganizationalRole or : rolesList) 
-		//	System.out.println("ExistingRole: " + or.headGoal.goalName);
 		
 		return suc;
 	}
 
-	public void addChild(List<Estado> suc, GoalNode goalToBeAssociatedToRole) {
-		if (headGoal.getChildren().contains(goalToBeAssociatedToRole)) {
-			OrganizationalRole newRole = new OrganizationalRole(goalToBeAssociatedToRole);
-			
-			//Copy all skills of the goal to this new role
-			for (String skill : goalToBeAssociatedToRole.getSkills()) newRole.roleSkills.add(skill);
-			
-			//The new role is a child of the current state (current role)
-			newRole.roleParent = this;
-			for (String s : this.graphLinks) newRole.graphLinks.add(s);
-			newRole.graphLinks.add(this.headGoal.goalName + "->" + newRole.headGoal.goalName);
+	public void addRelation(List<Estado> suc, GoalNode goalToBeAssociatedToRole) {
+		OrganizationalRole newRole = new OrganizationalRole(goalToBeAssociatedToRole);
 
-			for (GoalNode goal : this.goalSuccessors) {
-				if (goal != newRole.headGoal)
-					newRole.goalSuccessors.add(goal);
+		// Copy all skills of the goal to this new role
+		for (String skill : goalToBeAssociatedToRole.getSkills())
+			newRole.roleSkills.add(skill);
+
+		newRole.roleParent = this;
+		for (String s : this.graphLinks)
+			newRole.graphLinks.add(s);
+
+		// The new role is a child of the current state (current role)
+		OrganizationalRole parentOR = null;
+		for (OrganizationalRole or : rolesList)
+			if (or.headGoal == goalToBeAssociatedToRole.parent) {
+				parentOR = or;
+				break;
 			}
-			
-			System.out.print("\taddChild: " + newRole.toString() + ", Links: [ ");
-			for (String s : newRole.graphLinks) System.out.print(s + " ");
-			System.out.println("], nSucc: " + newRole.goalSuccessors.size());
+		newRole.graphLinks.add(parentOR.headGoal.goalName + "->" + newRole.headGoal.goalName);
 
-			suc.add(newRole);
-			rolesList.add(newRole);
+		for (GoalNode goal : this.goalSuccessors) {
+			if (goal != newRole.headGoal)
+				newRole.goalSuccessors.add(goal);
 		}
-	}
 
-	public void addBrother(List<Estado> suc, GoalNode goalToBeAssociatedToRole) {
-		if ((headGoal.parent == goalToBeAssociatedToRole.parent) && (headGoal.parent != null)) {
-			OrganizationalRole newRole = new OrganizationalRole(goalToBeAssociatedToRole);
-			for (String skill : goalToBeAssociatedToRole.getSkills())
-				newRole.roleSkills.add(skill);
-			newRole.roleParent = this.roleParent;
-			for (String s : this.graphLinks) newRole.graphLinks.add(s);
-			newRole.graphLinks.add(this.roleParent.headGoal.goalName + "->" + newRole.headGoal.goalName);
+		System.out.print("\taddRelation: " + newRole.toString() + ", Links: [ ");
+		for (String s : newRole.graphLinks)
+			System.out.print(s + " ");
+		System.out.println("], nSucc: " + newRole.goalSuccessors.size());
 
-			for (GoalNode goal : this.goalSuccessors) {
-				if (goal != newRole.headGoal)
-					newRole.goalSuccessors.add(goal);
+		suc.add(newRole);
+
+		boolean isNew = true;
+		for (OrganizationalRole or : rolesList)
+			if (or.headGoal == newRole.headGoal) {
+				isNew = false;
+				break;
 			}
-
-			System.out.print("\taddBrother: " + newRole.toString() + ", Links: [ ");
-			for (String s : newRole.graphLinks) System.out.print(s + " ");
-			System.out.println("], nSucc: " + newRole.goalSuccessors.size());
-
-			suc.add(newRole);
+		if (isNew) {
 			rolesList.add(newRole);
 		}
 	}
@@ -179,7 +175,10 @@ public class OrganizationalRole implements Estado, Antecessor{
 			System.out.println("], nSucc: " + newRole.goalSuccessors.size());
 
 			suc.add(newRole);
-			rolesList.add(newRole);
+
+			boolean isNew = true;
+			for (OrganizationalRole or : rolesList) if (or.headGoal == newRole.headGoal) { isNew = false; break;}
+			if (isNew) rolesList.add(newRole);
 		}
 	}
 	
@@ -232,43 +231,22 @@ public class OrganizationalRole implements Estado, Antecessor{
 
 		GoalNode paintHouse = new GoalNode(null,"paintHouse");
 		GoalNode contracting = new GoalNode(paintHouse,"contracting");
-		//contracting.addSkill("getBids");
-		//contracting.addSkill("show");
-		//contracting.addSkill("contract");
+		contracting.addSkill("getBids");
+		contracting.addSkill("show");
+		contracting.addSkill("contract");
 		GoalNode bidIPaint = new GoalNode(contracting,"bidIPaint");
-		//bidIPaint.addSkill("bid");
-		//bidIPaint.addSkill("paint");
-		//GoalNode bidEPaint = new GoalNode(contracting,"bidEPaint");
-		//bidEPaint.addSkill("bid");
-		//bidEPaint.addSkill("paint");
+		bidIPaint.addSkill("bid");
+		bidIPaint.addSkill("paint");
+		GoalNode bidEPaint = new GoalNode(contracting,"bidEPaint");
+		bidEPaint.addSkill("bid");
+		bidEPaint.addSkill("paint");
 		GoalNode execute = new GoalNode(paintHouse, "execute");
-		//GoalNode contractWinner = new GoalNode(execute, "contractWinner");
-		//contractWinner.addSkill("contract");
-		//GoalNode iPaint = new GoalNode(execute, "iPaint");
-		//iPaint.addSkill("paint");
-		//GoalNode ePaint = new GoalNode(execute, "ePaint");
-		//ePaint.addSkill("paint");
-
-/*
-Digite sua opcao de busca { Digite S para finalizar }
-	1  -  Largura
-	2  -  Profundidade
-	3  -  Pronfundidade Iterativo
-Opcao: 2
-Busca em Profundidade
-
-PARENT: paintHouse - OpenGoals: [[contracting, execute]] - Size: 2
-	addChild: contracting, Links: [ paintHouse->contracting ], nSucc: 1
-	addChild: execute, Links: [ paintHouse->execute ], nSucc: 1
-
-PARENT: contracting - OpenGoals: [[execute]] - Size: 0
-	addBrother: execute, Links: [ paintHouse->execute paintHouse->contracting ], nSucc: 0
-* * * GOAL ACHIEVED! Solution: #1 * * *
-
-PARENT: execute - OpenGoals: [[contracting]] - Size: 0
-	addBrother: contracting, Links: [ paintHouse->execute paintHouse->contracting ], nSucc: 0
-Sem Solucao!
-*/		
+		GoalNode contractWinner = new GoalNode(execute, "contractWinner");
+		contractWinner.addSkill("contract");
+		GoalNode iPaint = new GoalNode(execute, "iPaint");
+		iPaint.addSkill("paint");
+		GoalNode ePaint = new GoalNode(execute, "ePaint");
+		ePaint.addSkill("paint");
 		
 		OrganizationalRole inicial = new OrganizationalRole(paintHouse);
 
