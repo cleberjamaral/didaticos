@@ -287,37 +287,18 @@ public class OrganizationalRole implements Estado, Antecessor{
 		}
 	}
 
-	static class GoalNode {
+	public static class GoalNode {
 		private List<String> skills = new ArrayList<String>();
-		private List<GoalNode> children = new ArrayList<GoalNode>();
 		private List<GoalNode> successors = new ArrayList<GoalNode>();
 		private String goalName;
 		private GoalNode parent;
-		private int childrenNumber;
 
 		public GoalNode(GoalNode p, String name) {
 			goalName = name;
 			parent = p;
 			if (parent != null) {
-				parent.addChild(this);
-				parent.incChildrenNumber();
+				parent.addSuccessors(this);
 			}
-		}
-
-		public GoalNode(GoalNode p) {
-			parent = p;
-			if (parent != null)
-				parent.addChild(this);
-		}
-
-		public void incChildrenNumber() {
-			childrenNumber++;
-			if (parent != null)
-				parent.incChildrenNumber();
-		}
-
-		public int getChildrenNumber() {
-			return childrenNumber;
 		}
 
 		public void addSkill(String newSkill) {
@@ -328,29 +309,14 @@ public class OrganizationalRole implements Estado, Antecessor{
 			return skills;
 		}
 
-		private void addChild(GoalNode newChild) {
-			children.add(newChild);
-			successors.add(newChild);
-			if (parent != null)
-				parent.addSuccessors(newChild);
-		}
-
 		private void addSuccessors(GoalNode newSuccessor) {
 			successors.add(newSuccessor);
-		}
-
-		public List<GoalNode> getChildren() {
-			return children;
+			if (parent != null)
+				parent.addSuccessors(newSuccessor);			
 		}
 
 		public List<GoalNode> getSuccessors() {
 			return successors;
-		}
-
-		public GoalNode pickChild() {
-			GoalNode temp = children.get(0);
-			children.remove(0);
-			return temp;
 		}
 
 		public String toString() {
