@@ -59,15 +59,14 @@ public class OrganizationalRole implements Estado, Antecessor{
                 	out.println("digraph G {");
             		for (OrganizationalRole or : rolesList) {
             			//out.println(or.headGoal.goalName + ";");
-            			out.print(
-            					"\t\"" + or.headGoal.goalName + 
-            					"\" [ style = \"filled, bold\" penwidth = 5 fillcolor" +
-            					"= \"white\" fontname = \"Courier New\" shape = \"Mrecord\" label " + 
-            					"=<<table border=\"0\" cellborder=\"0\" cellpadding=\"3\" bgcolor=\"white\">" + 
-            					"<tr><td bgcolor=\"black\" align=\"center\">" +
-            					"<font color=\"white\">" + or.headGoal.goalName + "</font></td></tr>");
-            			for (String s : or.roleSkills) out.print("<tr><td align=\"left\">" + s + "</td></tr>");
-            			out.println("</table>> ];");
+						out.print("\t\"" + or.headGoal.goalName
+								+ "\" [ style = \"filled\" fillcolor = \"white\" fontname = \"Courier New\" "
+								+ "shape = \"Mrecord\" label = <<table border=\"0\" cellborder=\"0\" bgcolor=\"white\">"
+								+ "<tr><td bgcolor=\"black\" align=\"center\"><font color=\"white\">"
+								+ or.headGoal.goalName + "</font></td></tr>");
+						for (String s : or.roleSkills)
+							out.print("<tr><td align=\"left\">" + s + "</td></tr>");
+						out.println("</table>> ];");
             		}
                 		
         			for (String s : this.graphLinks) out.println("\t" + s + ";");
@@ -216,7 +215,7 @@ public class OrganizationalRole implements Estado, Antecessor{
 	 */
 
 	public int hashCode() {
-		return 0;
+		return this.graphLinks.hashCode();
 
 	}
 
@@ -229,6 +228,7 @@ public class OrganizationalRole implements Estado, Antecessor{
 
 	public static void main(String[] a) throws IOException {
 
+		// Sample organization : paint a house
 		GoalNode paintHouse = new GoalNode(null,"paintHouse");
 		GoalNode contracting = new GoalNode(paintHouse,"contracting");
 		contracting.addSkill("getBids");
@@ -319,6 +319,14 @@ public class OrganizationalRole implements Estado, Antecessor{
 			return successors;
 		}
 
+		public String getGoalName() {
+			return goalName;
+		}
+		
+		public GoalNode getParent() {
+			return parent;
+		}
+		
 		public String toString() {
 			return goalName;
 		}

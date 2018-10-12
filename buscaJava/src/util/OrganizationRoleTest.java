@@ -1,9 +1,13 @@
 package util;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 import busca.BuscaIterativo;
 import busca.BuscaLargura;
@@ -12,38 +16,41 @@ import busca.Nodo;
 import exemplos.OrganizationalRole;
 import exemplos.OrganizationalRole.GoalNode;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NamedNodeMap;
-
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class OrganizationRoleTest {
 	
-	static boolean p_open = false;
-	static boolean s_open = false;
-
-	static GoalNode rootNode;
 	static List<GoalNode> tree = new ArrayList<GoalNode>();
+	static Stack<GoalNode> stack = new Stack<GoalNode>();
+	static GoalNode rootNode = null;
+	static boolean pushGoalNode = false;
+	static GoalNode referenceGoalNode = null;
 
-	public static void main(String[] args) throws IOException {
-		try {
+	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+		
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document document = builder.parse(new File("tst1.xml"));
 
-			File file = new File("tst1.xml");
-			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			Document doc = dBuilder.parse(file);
+		if (!document.getDocumentElement().getNodeName().equals("organisational-specification"))
+			throw new IllegalArgumentException("Error! It is expected an 'organisational-specification' XML structure");
 
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+		document.getDocumentElement().normalize();
+		//Visit all possible schemes from Moise 'functional-specification'
+		NodeList nList = document.getElementsByTagName("scheme");
 
-			if (doc.hasChildNodes()) printNote(doc.getChildNodes());
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		visitNodes(nList);		
+		
+		plotOrganizationalGoalTree();
 		
 		OrganizationalRole inicial = new OrganizationalRole(rootNode);
 
@@ -85,44 +92,65 @@ public class OrganizationRoleTest {
 		
 	}
 
-	private static void printNote(NodeList nodeList) {
+	private static void visitNodes(NodeList nList) {
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			
+			Node node = nList.item(temp);
+			
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-		for (int count = 0; count < nodeList.getLength(); count++) {
+				Element eElement = (Element) node;
+	            //Create new Employee Object
+				if (node.getNodeName().equals("goal")) {
+					System.out.println("Node id = " + eElement.getAttribute("id"));
 
-			Node tempNode = nodeList.item(count);
-
-			// make sure it's element node.
-			if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
-
-				if ((!s_open) && (tempNode.getNodeName().equals("scheme"))) s_open = true; 
-				if ((!p_open) && (tempNode.getNodeName().equals("plan"))) p_open = true; 
-				System.out.println("\nNode=" + tempNode.getNodeName() + " [OPEN]");
-				//System.out.println("Node Value=" + tempNode.getTextContent());
-
-				if (tempNode.hasAttributes()) {
-					// get attributes names and values
-					NamedNodeMap nodeMap = tempNode.getAttributes();
-
-					for (int i = 0; i < nodeMap.getLength(); i++) {
-						System.out.println("\t" + nodeMap.item(i).getNodeName() + "=" + nodeMap.item(i).getNodeValue());
-						if ((rootNode == null) && (nodeMap.item(i).getNodeName() == "id")){
-							rootNode = new GoalNode(null,nodeMap.item(i).getNodeValue());
-						} else {
-							if ((p_open) && (tempNode.getNodeName() == "goal") && (nodeMap.item(i).getNodeName() == "id")) {
-								GoalNode newNode = new GoalNode(rootNode,nodeMap.item(i).getNodeValue());
-								tree.add(newNode);
-							}
-						}
+					if (rootNode == null) {
+						rootNode = new GoalNode(null,eElement.getAttribute("id"));
+						referenceGoalNode = rootNode;
+					} else {
+						GoalNode gn = new GoalNode(stack.peek(),eElement.getAttribute("id"));
+						tree.add(gn);
+						referenceGoalNode = gn;
 					}
+					
+				} else if (node.getNodeName().equals("plan")) {
+					stack.push(referenceGoalNode);
+					System.out.println("Push = " + referenceGoalNode.toString());
+				} else if (node.getNodeName().equals("skill")) {
+					referenceGoalNode.addSkill(eElement.getAttribute("id"));
+					System.out.println("Skill = " + referenceGoalNode.toString() + " : " + referenceGoalNode.getSkills());
 				}
-
-				if (tempNode.hasChildNodes()) printNote(tempNode.getChildNodes());
-
-				System.out.println("Node Name =" + tempNode.getNodeName() + " [CLOSE]");
-				if ((s_open) && (tempNode.getNodeName().equals("scheme"))) s_open = false; 
-				if ((p_open) && (tempNode.getNodeName().equals("plan"))) p_open = false; 
-
+				if (node.hasChildNodes()) {
+					// We got more childs; Let's visit them as well
+					visitNodes(node.getChildNodes());
+					if (node.getNodeName().equals("plan")) 
+						System.out.println("Poping = " + stack.pop().toString());
+				}
 			}
+		}
+	}
+	
+	private static void plotOrganizationalGoalTree() {
+		try (FileWriter fw = new FileWriter("orgTree.gv", false);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter out = new PrintWriter(bw)) {
+        	out.println("digraph G {");
+    		for (GoalNode or : tree) {
+    			//out.println(or.headGoal.goalName + ";");
+				out.print("\t\"" + or.getGoalName()
+						+ "\" [ style = \"filled\" fillcolor = \"white\" "
+						+ "shape = \"ellipse\" label = <<table border=\"0\" cellborder=\"0\" bgcolor=\"white\">"
+						+ "<tr><td bgcolor=\"black\" align=\"center\"><font color=\"white\">"
+						+ or.getGoalName() + "</font></td></tr>");
+				for (String s : or.getSkills())
+					out.print("<tr><td align=\"left\">" + s + "</td></tr>");
+				out.println("</table>> ];");
+				if (or.getParent() != null)
+					out.println("\t" + or.getParent().getGoalName() + "->" + or.getGoalName() + ";");
+    		}
+        		
+        	out.println("}");
+		} catch (IOException e) {
 		}
 	}
 }
