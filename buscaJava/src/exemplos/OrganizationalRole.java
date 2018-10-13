@@ -254,6 +254,7 @@ public class OrganizationalRole implements Estado, Antecessor {
 		// Sample organization : paint a house
 		GoalNode paintHouse = new GoalNode(null, "paintHouse");
 		GoalNode contracting = new GoalNode(paintHouse, "contracting");
+		contracting.operator = "parallel";
 		contracting.addSkill("getBids");
 		GoalNode bidIPaint = new GoalNode(contracting, "bidIPaint");
 		bidIPaint.addSkill("bid");
