@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import simplelogger.SimpleLogger;
+
 public class OrganizationRoleTest {
 	
 	static List<GoalNode> tree = new ArrayList<GoalNode>();
@@ -37,11 +39,20 @@ public class OrganizationRoleTest {
 
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
 		
+		// set verbose level
+		if (args[1].isEmpty())
+			SimpleLogger.getInstance(3);
+		else
+			SimpleLogger.getInstance(Integer.valueOf(args[1]));
+
 		String str;
 		BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
-
-		System.out.print("Digite o nome do arquivo XML organizational-specification: ");
-		str = teclado.readLine();
+		if (args[0].isEmpty()) {
+			System.out.print("Digite o nome do arquivo XML organizational-specification: ");
+			str = teclado.readLine();
+		} else {
+			str = args[0];
+		}
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -70,6 +81,7 @@ public class OrganizationRoleTest {
 		str = teclado.readLine().toUpperCase();
 		if (!str.equals("S")) {
 			if (str.equals("1")) {
+				
 				System.out.println("Busca em Largura");
 				n = new BuscaLargura().busca(inicial);
 			} else {
@@ -103,7 +115,7 @@ public class OrganizationRoleTest {
 
 				Element eGoal = (Element) node;
 				if (node.getNodeName().equals("goal")) {
-					//System.out.println("Node id = " + eElement.getAttribute("id"));
+					SimpleLogger.getInstance().debug("Node id = " + eGoal.getAttribute("id"));
 
 					if (rootNode == null) {
 						rootNode = new GoalNode(null,eGoal.getAttribute("id"));
@@ -119,17 +131,17 @@ public class OrganizationRoleTest {
 					Element ePlan = (Element) node;
 					stack.push(referenceGoalNode);
 					referenceGoalNode.setOperator(ePlan.getAttribute("operator"));
-					//System.out.println("Push = " + referenceGoalNode.toString() + " - Op: " + referenceGoalNode.getOperator());
+					SimpleLogger.getInstance().debug("Push = " + referenceGoalNode.toString() + " - Op: " + referenceGoalNode.getOperator());
 				} else if (node.getNodeName().equals("skill")) {
 					referenceGoalNode.addSkill(eGoal.getAttribute("id"));
-					//System.out.println("Skill = " + referenceGoalNode.toString() + " : " + referenceGoalNode.getSkills());
+					SimpleLogger.getInstance().debug("Skill = " + referenceGoalNode.toString() + " : " + referenceGoalNode.getSkills());
 				}
 				if (node.hasChildNodes()) {
-					// We got more childs; Let's visit them as well
+		
 					visitNodes(node.getChildNodes());
 					if (node.getNodeName().equals("plan")) {
 						GoalNode tempGN = stack.pop();
-						//System.out.println("Poping = " + tempGN.toString());
+						SimpleLogger.getInstance().debug("Poping = " + tempGN.toString());
 					}
 				}
 			}

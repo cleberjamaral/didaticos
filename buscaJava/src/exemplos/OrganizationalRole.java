@@ -19,46 +19,50 @@ import busca.BuscaProfundidade;
 import busca.Estado;
 import busca.Nodo;
 
-public class OrganizationalRole implements Estado, Antecessor{
-    
+import simplelogger.SimpleLogger;
+
+public class OrganizationalRole implements Estado, Antecessor {
+
+	private static SimpleLogger LOG = SimpleLogger.getInstance(3);
+
 	private static List<OrganizationalRole> isGoalList = new ArrayList<OrganizationalRole>();
 	private static List<OrganizationalRole> rolesList = new ArrayList<OrganizationalRole>();
-	
+
 	GoalNode headGoal;
 	private Set<String> roleSkills = new HashSet<String>();
 	private List<GoalNode> goalSuccessors = new ArrayList<GoalNode>();
 
 	private OrganizationalRole roleParent;
-	
-	private Set<String> graphLinks = new HashSet<String>();
-	
-    public String getDescricao() {
-        return "Empty\n";
-    }
-    
-    public OrganizationalRole(GoalNode gn) {
-    	headGoal = gn;
-    	
-    	if (gn.parent == null) {
-    		for (GoalNode goal : headGoal.getSuccessors()) goalSuccessors.add(goal);
-        	rolesList.add(this);
-    	}
-    }
-    
-    public boolean ehMeta(){
 
-    	if (goalSuccessors.size() <= 0) {
-           	if (!isGoalList.contains(this))
-        	{
-        		isGoalList.add(this);
-            	System.out.println("* * * GOAL ACHIEVED! Solution: #" + isGoalList.size() + " * * *");
-            	
-        		try (FileWriter fw = new FileWriter("graph_"+isGoalList.size()+".gv", false);
-        				BufferedWriter bw = new BufferedWriter(fw);
-        				PrintWriter out = new PrintWriter(bw)) {
-                	out.println("digraph G {");
-            		for (OrganizationalRole or : rolesList) {
-            			//out.println(or.headGoal.goalName + ";");
+	private Set<String> graphLinks = new HashSet<String>();
+
+	public String getDescricao() {
+		return "Empty\n";
+	}
+
+	public OrganizationalRole(GoalNode gn) {
+		headGoal = gn;
+
+		if (gn.parent == null) {
+			for (GoalNode goal : headGoal.getSuccessors())
+				goalSuccessors.add(goal);
+			rolesList.add(this);
+		}
+	}
+
+	public boolean ehMeta() {
+
+		if (goalSuccessors.size() <= 0) {
+			if (!isGoalList.contains(this)) {
+				isGoalList.add(this);
+				LOG.info("GOAL ACHIEVED! Solution: #" + isGoalList.size());
+
+				try (FileWriter fw = new FileWriter("graph_" + isGoalList.size() + ".gv", false);
+						BufferedWriter bw = new BufferedWriter(fw);
+						PrintWriter out = new PrintWriter(bw)) {
+					out.println("digraph G {");
+					for (OrganizationalRole or : rolesList) {
+						// out.println(or.headGoal.goalName + ";");
 						out.print("\t\"" + or.headGoal.goalName
 								+ "\" [ style = \"filled\" fillcolor = \"white\" fontname = \"Courier New\" "
 								+ "shape = \"Mrecord\" label = <<table border=\"0\" cellborder=\"0\" bgcolor=\"white\">"
@@ -67,22 +71,24 @@ public class OrganizationalRole implements Estado, Antecessor{
 						for (String s : or.roleSkills)
 							out.print("<tr><td align=\"left\">" + s + "</td></tr>");
 						out.println("</table>> ];");
-            		}
-                		
-        			for (String s : this.graphLinks) out.println("\t" + s + ";");
-                	out.println("}");
-        		} catch (IOException e) {
-        		}
-        	} else {
-        		//This should not happen again, it has occurred because searching process (deepth) was calling ehMeta 2 times
-            	System.out.println("* * * Goal achieved but duplicated * * *");
-        	}
-    	}
-    	return false;
-    }    	
+					}
+
+					for (String s : this.graphLinks)
+						out.println("\t" + s + ";");
+					out.println("}");
+				} catch (IOException e) {
+				}
+			} else {
+				// This should not happen again, it has occurred because searching process
+				// (deepth) was calling ehMeta 2 times
+				LOG.warn("* * * Goal achieved but duplicated * * *");
+			}
+		}
+		return false;
+	}
 
 	public OrganizationalRole getRootRole(OrganizationalRole node) {
-		if (node.roleParent == null) 
+		if (node.roleParent == null)
 			return node;
 		else
 			return getRootRole(node.roleParent);
@@ -99,14 +105,14 @@ public class OrganizationalRole implements Estado, Antecessor{
 		List<Estado> suc = new LinkedList<Estado>(); // Lista de sucessores
 
 		if (!goalSuccessors.isEmpty())
-			System.out.println("\nPARENT: " + this.toString() + " - OpenGoals: [" + goalSuccessors.toString()
-					+ "] - Size: " + headGoal.getSuccessors().size());
+			LOG.debug("\nPARENT: " + this.toString() + " - OpenGoals: [" + goalSuccessors.toString() + "] - Size: "
+					+ headGoal.getSuccessors().size());
 
 		for (GoalNode goalToBeAssociated : goalSuccessors) {
 			addRelation(suc, goalToBeAssociated);
 			joinAnother(suc, goalToBeAssociated);
 		}
-		
+
 		return suc;
 	}
 
@@ -135,10 +141,12 @@ public class OrganizationalRole implements Estado, Antecessor{
 				newRole.goalSuccessors.add(goal);
 		}
 
-		System.out.print("\taddRelation: " + newRole.toString() + ", Links: [ ");
+		String logg;
+		logg = "\taddRelation: " + newRole.toString() + ", Links: [ ";
 		for (String s : newRole.graphLinks)
-			System.out.print(s + " ");
-		System.out.println("], nSucc: " + newRole.goalSuccessors.size());
+			logg += s + " ";
+		logg += "], nSucc: " + newRole.goalSuccessors.size();
+		LOG.debug(logg);
 
 		suc.add(newRole);
 
@@ -154,18 +162,20 @@ public class OrganizationalRole implements Estado, Antecessor{
 	}
 
 	public void joinAnother(List<Estado> suc, GoalNode goalToBeAssociatedToRole) {
-		//if the goal has skills (not null) and this node has all skills, so we can join the goals in an unique role 
-		if ((this.roleSkills.containsAll(goalToBeAssociatedToRole.getSkills())) && 
-				(!goalToBeAssociatedToRole.getSkills().isEmpty()) &&
-				(!goalToBeAssociatedToRole.getParent().getOperator().equals("parallel")) 
-				) {
-			//Creates a new state which is the same role but with another equal link (just to make it different)
+		// if the goal has skills (not null) and this node has all skills, so we can
+		// join the goals in an unique role
+		if ((this.roleSkills.containsAll(goalToBeAssociatedToRole.getSkills()))
+				&& (!goalToBeAssociatedToRole.getSkills().isEmpty())
+				&& (!goalToBeAssociatedToRole.getParent().getOperator().equals("parallel"))) {
+			// Creates a new state which is the same role but with another equal link (just
+			// to make it different)
 			OrganizationalRole newRole = new OrganizationalRole(goalToBeAssociatedToRole);
 			for (String skill : goalToBeAssociatedToRole.getSkills())
 				newRole.roleSkills.add(skill);
 			newRole.roleParent = this.roleParent;
-			for (String s : this.graphLinks) newRole.graphLinks.add(s);
-			//newRole.graphLinks.add(newRole.headGoal.goalName);// + " [shape=plaintext,comment=joined]");
+			for (String s : this.graphLinks)
+				newRole.graphLinks.add(s);
+			// create link between goal's parent and the already existing equivalent role
 			newRole.graphLinks.add(goalToBeAssociatedToRole.parent.goalName + "->" + this.headGoal.goalName);
 
 			for (GoalNode goal : this.goalSuccessors) {
@@ -173,18 +183,26 @@ public class OrganizationalRole implements Estado, Antecessor{
 					newRole.goalSuccessors.add(goal);
 			}
 
-			System.out.print("\tjoinAnother: " + newRole.toString() + ", Links: [ ");
-			for (String s : newRole.graphLinks) System.out.print(s + " ");
-			System.out.println("], nSucc: " + newRole.goalSuccessors.size());
+			String logg;
+			logg = "\tjoinAnother: " + newRole.toString() + ", Links: [ ";
+			for (String s : newRole.graphLinks)
+				logg += s + " ";
+			logg += "], nSucc: " + newRole.goalSuccessors.size();
+			LOG.debug(logg);
 
 			suc.add(newRole);
 
 			boolean isNew = true;
-			for (OrganizationalRole or : rolesList) if (or.headGoal == newRole.headGoal) { isNew = false; break;}
-			if (isNew) rolesList.add(newRole);
+			for (OrganizationalRole or : rolesList)
+				if (or.headGoal == newRole.headGoal) {
+					isNew = false;
+					break;
+				}
+			if (isNew)
+				rolesList.add(newRole);
 		}
 	}
-	
+
 	/** Lista de antecessores, para busca bidirecional */
 	public List<Estado> antecessores() {
 		return sucessores();
@@ -193,7 +211,8 @@ public class OrganizationalRole implements Estado, Antecessor{
 	public String toString() {
 		String r = "";
 		r += headGoal.toString();
-		if (!this.roleSkills.isEmpty()) r += "[" + this.roleSkills.toString() + "]";
+		if (!this.roleSkills.isEmpty())
+			r += "[" + this.roleSkills.toString() + "]";
 
 		return r;
 	}
@@ -233,12 +252,15 @@ public class OrganizationalRole implements Estado, Antecessor{
 	public static void main(String[] a) throws IOException {
 
 		// Sample organization : paint a house
-		GoalNode paintHouse = new GoalNode(null,"paintHouse");
-		GoalNode contracting = new GoalNode(paintHouse,"contracting");
+		GoalNode paintHouse = new GoalNode(null, "paintHouse");
+		GoalNode contracting = new GoalNode(paintHouse, "contracting");
 		contracting.addSkill("getBids");
-		GoalNode bidIPaint = new GoalNode(contracting,"bidPaint");
+		GoalNode bidIPaint = new GoalNode(contracting, "bidIPaint");
 		bidIPaint.addSkill("bid");
 		bidIPaint.addSkill("paint");
+		GoalNode bidEPaint = new GoalNode(contracting, "bidEPaint");
+		bidEPaint.addSkill("bid");
+		bidEPaint.addSkill("paint");
 		GoalNode execute = new GoalNode(paintHouse, "execute");
 		GoalNode contractWinner = new GoalNode(execute, "contractWinner");
 		contractWinner.addSkill("contract");
@@ -247,7 +269,7 @@ public class OrganizationalRole implements Estado, Antecessor{
 		iPaint.addSkill("paint");
 		GoalNode ePaint = new GoalNode(execute, "ePaint");
 		ePaint.addSkill("paint");
-		
+
 		OrganizationalRole inicial = new OrganizationalRole(paintHouse);
 
 		String str;
@@ -314,7 +336,7 @@ public class OrganizationalRole implements Estado, Antecessor{
 		private void addSuccessors(GoalNode newSuccessor) {
 			successors.add(newSuccessor);
 			if (parent != null)
-				parent.addSuccessors(newSuccessor);			
+				parent.addSuccessors(newSuccessor);
 		}
 
 		public List<GoalNode> getSuccessors() {
@@ -324,7 +346,7 @@ public class OrganizationalRole implements Estado, Antecessor{
 		public String getGoalName() {
 			return goalName;
 		}
-		
+
 		public GoalNode getParent() {
 			return parent;
 		}
@@ -332,11 +354,11 @@ public class OrganizationalRole implements Estado, Antecessor{
 		public void setOperator(String op) {
 			this.operator = op;
 		}
-		
+
 		public String getOperator() {
 			return operator;
 		}
-		
+
 		public String toString() {
 			return goalName;
 		}
