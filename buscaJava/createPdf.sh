@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm graph*.pdf
+rm *.gv.pdf
 
 for i in *.gv; do
   new=$(printf "%s.pdf" "$i")
@@ -15,4 +15,4 @@ done
 #  let a=a+1
 #done
 
-rm graph*.gv
+rm *.gv

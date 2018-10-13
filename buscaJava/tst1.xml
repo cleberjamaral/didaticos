@@ -39,13 +39,15 @@
 							<goal id="plumbing_installed" ttf="20 minutes" />
 							<goal id="electrical_system_installed" ttf="20 minutes" />
 							<goal id="exterior_painted" ttf="20 minutes">
+								<skill id="bid"/>
 								<skill id="paint"/>
 							</goal>
 
 						</plan>
 					</goal>
 					<goal id="interior_painted" ttf="30 minutes">
-						<skill id="paint" />
+						<skill id="paint"/>
+						<skill id="bid"/>
 					</goal>
 				</plan>
 			</goal>

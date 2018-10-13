@@ -155,14 +155,18 @@ public class OrganizationalRole implements Estado, Antecessor{
 
 	public void joinAnother(List<Estado> suc, GoalNode goalToBeAssociatedToRole) {
 		//if the goal has skills (not null) and this node has all skills, so we can join the goals in an unique role 
-		if ((this.roleSkills.containsAll(goalToBeAssociatedToRole.getSkills())) && (!goalToBeAssociatedToRole.getSkills().isEmpty())) {
+		if ((this.roleSkills.containsAll(goalToBeAssociatedToRole.getSkills())) && 
+				(!goalToBeAssociatedToRole.getSkills().isEmpty()) &&
+				(!goalToBeAssociatedToRole.getParent().getOperator().equals("parallel")) 
+				) {
 			//Creates a new state which is the same role but with another equal link (just to make it different)
 			OrganizationalRole newRole = new OrganizationalRole(goalToBeAssociatedToRole);
 			for (String skill : goalToBeAssociatedToRole.getSkills())
 				newRole.roleSkills.add(skill);
 			newRole.roleParent = this.roleParent;
 			for (String s : this.graphLinks) newRole.graphLinks.add(s);
-			newRole.graphLinks.add(newRole.headGoal.goalName + " [shape=plaintext,comment=joined]");
+			//newRole.graphLinks.add(newRole.headGoal.goalName);// + " [shape=plaintext,comment=joined]");
+			newRole.graphLinks.add(goalToBeAssociatedToRole.parent.goalName + "->" + this.headGoal.goalName);
 
 			for (GoalNode goal : this.goalSuccessors) {
 				if (goal != newRole.headGoal)
@@ -232,18 +236,14 @@ public class OrganizationalRole implements Estado, Antecessor{
 		GoalNode paintHouse = new GoalNode(null,"paintHouse");
 		GoalNode contracting = new GoalNode(paintHouse,"contracting");
 		contracting.addSkill("getBids");
-		contracting.addSkill("show");
-		contracting.addSkill("contract");
-		GoalNode bidIPaint = new GoalNode(contracting,"bidIPaint");
+		GoalNode bidIPaint = new GoalNode(contracting,"bidPaint");
 		bidIPaint.addSkill("bid");
 		bidIPaint.addSkill("paint");
-		GoalNode bidEPaint = new GoalNode(contracting,"bidEPaint");
-		bidEPaint.addSkill("bid");
-		bidEPaint.addSkill("paint");
 		GoalNode execute = new GoalNode(paintHouse, "execute");
 		GoalNode contractWinner = new GoalNode(execute, "contractWinner");
 		contractWinner.addSkill("contract");
 		GoalNode iPaint = new GoalNode(execute, "iPaint");
+		iPaint.addSkill("bid");
 		iPaint.addSkill("paint");
 		GoalNode ePaint = new GoalNode(execute, "ePaint");
 		ePaint.addSkill("paint");
@@ -292,10 +292,12 @@ public class OrganizationalRole implements Estado, Antecessor{
 		private List<GoalNode> successors = new ArrayList<GoalNode>();
 		private String goalName;
 		private GoalNode parent;
+		private String operator;
 
 		public GoalNode(GoalNode p, String name) {
 			goalName = name;
 			parent = p;
+			operator = "sequence";
 			if (parent != null) {
 				parent.addSuccessors(this);
 			}
@@ -325,6 +327,14 @@ public class OrganizationalRole implements Estado, Antecessor{
 		
 		public GoalNode getParent() {
 			return parent;
+		}
+
+		public void setOperator(String op) {
+			this.operator = op;
+		}
+		
+		public String getOperator() {
+			return operator;
 		}
 		
 		public String toString() {
