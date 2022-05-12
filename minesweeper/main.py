@@ -18,6 +18,13 @@ top_frame = Frame(
 )
 top_frame.place(x=0, y=0)
 
+left_frame = Frame(
+    root,
+    bg='blue',
+    width=WINDOW_WIDTH/5,
+    height=WINDOW_HEIGHT-WINDOW_HEIGHT/5
+)
+left_frame.place(x=0, y=WINDOW_HEIGHT/5)
 
 # Run the window
 root.mainloop()
