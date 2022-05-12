@@ -1,4 +1,4 @@
-checkoutLocation: src/github.com/32leaves/hello-ui
+checkoutLocation: src
 workspaceLocation: /
 image:
   file: Dockerfile
