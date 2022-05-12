@@ -1,4 +1,4 @@
-checkoutLocation: src
+checkoutLocation: Didaticos
 workspaceLocation: /
 image:
   file: Dockerfile
@@ -6,4 +6,4 @@ ports:
   - port: 6080
     protocol: "http"
 tasks:
-  - command: "python3 ./minesweeper/main.py"
+  - command: "python3 ./Didaticos/minesweeper/main.py"
