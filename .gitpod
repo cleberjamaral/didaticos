@@ -5,5 +5,7 @@ image:
 ports:
   - port: 6080
     protocol: "http"
+    onOpen: open-preview
 tasks:
-  - command: "python3 ./Didaticos/minesweeper/main.py"
+  - init: /usr/bin/python3 /workspace/Didaticos/minesweeper/main.py
+    command: /usr/bin/python3 /workspace/Didaticos/minesweeper/main.py
