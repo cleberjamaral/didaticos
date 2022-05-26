@@ -1,0 +1,1 @@
+Projeto de um simulador e implementação de um veículo auto-dirigido implementado em JavaScript sem uso de bibliotecas. A implementação segue o tutorial feito por Radu e disponível no freecodecamp (https://www.freecodecamp.org/news/self-driving-car-javascript/). 
