@@ -3,9 +3,12 @@ workspaceLocation: /
 image:
   file: Dockerfile
 ports:
-  - port: 6080
+  - port: 6080 #VNC connection
+    protocol: "http"
+    #onOpen: open-preview
+  - port: 8080
     protocol: "http"
     onOpen: open-preview
-tasks:
-  - init: /usr/bin/python3 /workspace/Didaticos/minesweeper/main.py
-    command: /usr/bin/python3 /workspace/Didaticos/minesweeper/main.py
+#tasks:
+#  - init: /usr/bin/python3 /workspace/Didaticos/minesweeper/main.py
+#    command: /usr/bin/python3 /workspace/Didaticos/minesweeper/main.py
