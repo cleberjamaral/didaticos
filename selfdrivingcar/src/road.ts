@@ -1,5 +1,15 @@
 class Road{
-    constructor(x,width,laneCount=3){
+    x: number;
+    width: number;
+    laneCount: number;
+
+    left: number;
+    right: number;
+
+    top: number;;
+    bottom: number;;
+    borders:object[][];
+    constructor(x: number,width: number,laneCount=3){
         this.x=x;
         this.width=width;
         this.laneCount=laneCount;
@@ -21,13 +31,13 @@ class Road{
         ];
     }
 
-    getLaneCenter(laneIndex){
+    getLaneCenter(laneIndex: number){
         const laneWidth=this.width/this.laneCount;
         return this.left+laneWidth/2+
             Math.min(laneIndex,this.laneCount-1)*laneWidth;
     }
 
-    draw(ctx){
+    draw(ctx: CanvasRenderingContext2D){
         ctx.lineWidth=5;
         ctx.strokeStyle="white";
 
@@ -46,7 +56,7 @@ class Road{
         }
 
         ctx.setLineDash([]);
-        this.borders.forEach(border=>{
+        this.borders.forEach((border: any)=>{
             ctx.beginPath();
             ctx.moveTo(border[0].x,border[0].y);
             ctx.lineTo(border[1].x,border[1].y);

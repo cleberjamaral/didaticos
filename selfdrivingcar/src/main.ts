@@ -1,20 +1,20 @@
-const carCanvas=document.getElementById("carCanvas");
+const carCanvas=document.getElementById("carCanvas") as HTMLCanvasElement;
 carCanvas.width=200;
-const networkCanvas=document.getElementById("networkCanvas");
+const networkCanvas=document.getElementById("networkCanvas") as HTMLCanvasElement;
 networkCanvas.width=300;
 
-const carCtx = carCanvas.getContext("2d");
-const networkCtx = networkCanvas.getContext("2d");
+const carCtx = carCanvas.getContext("2d") as CanvasRenderingContext2D;
+const networkCtx = networkCanvas.getContext("2d") as CanvasRenderingContext2D;
 
 const road=new Road(carCanvas.width/2,carCanvas.width*0.9);
 
-const N=500;
-const cars=generateCars(N);
-let bestCar=cars[0];
+const N = 500;
+const cars = generateCars(N);
+let bestCar: any = cars[0];
 if(localStorage.getItem("bestBrain")){
     for(let i=0;i<cars.length;i++){
         cars[i].brain=JSON.parse(
-            localStorage.getItem("bestBrain"));
+            localStorage.getItem("bestBrain") || "{}");
         if(i!=0){
             NeuralNetwork.mutate(cars[i].brain,0.1);
         }
@@ -45,7 +45,7 @@ function discard(){
     localStorage.removeItem("bestBrain");
 }
 
-function generateCars(N){
+function generateCars(N: number){
     const cars=[];
     for(let i=1;i<=N;i++){
         cars.push(new Car(road.getLaneCenter(1),100,30,50,"AI"));
@@ -53,7 +53,7 @@ function generateCars(N){
     return cars;
 }
 
-function animate(time){
+function animate(time = 43.774){
     for(let i=0;i<traffic.length;i++){
         traffic[i].update(road.borders,[]);
     }

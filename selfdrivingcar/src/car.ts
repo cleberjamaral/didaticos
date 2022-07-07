@@ -1,5 +1,25 @@
 class Car{
-    constructor(x,y,width,height,controlType,maxSpeed=3){
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+
+    speed = 0;
+    acceleration = 0.2;
+    maxSpeed = 3;
+    friction = 0.05;
+    angle = 0;
+    damaged = false;
+    polygon: any = null;
+
+    useBrain: boolean;
+
+    sensor!: Sensor;
+    brain!: NeuralNetwork;
+    controls!: Controls;
+
+
+    constructor(x: number,y: number,width: number,height:number ,controlType: string,maxSpeed=3){
         this.x=x;
         this.y=y;
         this.width=width;
@@ -23,7 +43,7 @@ class Car{
         this.controls=new Controls(controlType);
     }
 
-    update(roadBorders,traffic){
+    update(roadBorders: object[][],traffic: Car[]){
         if(!this.damaged){
             this.#move();
             this.polygon=this.#createPolygon();
@@ -32,20 +52,20 @@ class Car{
         if(this.sensor){
             this.sensor.update(roadBorders,traffic);
             const offsets=this.sensor.readings.map(
-                s=>s==null?0:1-s.offset
+                (s: {offset: number;} | null)=>s==null?0:1-s.offset
             );
             const outputs=NeuralNetwork.feedForward(offsets,this.brain);
 
             if(this.useBrain){
-                this.controls.forward=outputs[0];
-                this.controls.left=outputs[1];
-                this.controls.right=outputs[2];
-                this.controls.reverse=outputs[3];
+                this.controls.forward=Boolean(outputs[0]);
+                this.controls.left=Boolean(outputs[1]);
+                this.controls.right=Boolean(outputs[2]);
+                this.controls.reverse=Boolean(outputs[3]);
             }
         }
     }
 
-    #assessDamage(roadBorders,traffic){
+    #assessDamage(roadBorders: object[][],traffic: Car[]){
         for(let i=0;i<roadBorders.length;i++){
             if(polysIntersect(this.polygon,roadBorders[i])){
                 return true;
@@ -121,7 +141,7 @@ class Car{
         this.y-=Math.cos(this.angle)*this.speed;
     }
 
-    draw(ctx,color,drawSensor=false){
+    draw(ctx: CanvasRenderingContext2D,color: string,drawSensor=false){
         if(this.damaged){
             ctx.fillStyle="gray";
         }else{

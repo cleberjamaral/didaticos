@@ -1,5 +1,5 @@
 class Visualizer{
-    static drawNetwork(ctx,network){
+    static drawNetwork(ctx: CanvasRenderingContext2D,network: NeuralNetwork){
         const margin=50;
         const left=margin;
         const top=margin;
@@ -29,7 +29,7 @@ class Visualizer{
         }
     }
 
-    static drawLevel(ctx,level,left,top,width,height,outputLabels){
+    static drawLevel(ctx: CanvasRenderingContext2D,level: Level,left: number,top: number,width: number,height: number,outputLabels: string[]){
         const right=left+width;
         const bottom=top+height;
 
@@ -98,7 +98,7 @@ class Visualizer{
         }
     }
 
-    static #getNodeX(nodes,index,left,right){
+    static #getNodeX(nodes: string | any[],index: number,left: number,right: number){
         return lerp(
             left,
             right,

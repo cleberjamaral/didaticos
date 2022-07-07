@@ -1,5 +1,9 @@
 class Controls{
-    constructor(type){
+    forward=false;
+    left=false;
+    right=false;
+    reverse=false;
+    constructor(type: string){
         this.forward=false;
         this.left=false;
         this.right=false;
