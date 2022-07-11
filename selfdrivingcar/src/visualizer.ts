@@ -39,11 +39,11 @@ class Visualizer{
             for(let j=0;j<outputs.length;j++){
                 ctx.beginPath();
                 ctx.moveTo(
-                    Visualizer.#getNodeX(inputs,i,left,right),
+                    Visualizer.getNodeX(inputs,i,left,right),
                     bottom
                 );
                 ctx.lineTo(
-                    Visualizer.#getNodeX(outputs,j,left,right),
+                    Visualizer.getNodeX(outputs,j,left,right),
                     top
                 );
                 ctx.lineWidth=2;
@@ -54,7 +54,7 @@ class Visualizer{
 
         const nodeRadius=18;
         for(let i=0;i<inputs.length;i++){
-            const x=Visualizer.#getNodeX(inputs,i,left,right);
+            const x=Visualizer.getNodeX(inputs,i,left,right);
             ctx.beginPath();
             ctx.arc(x,bottom,nodeRadius,0,Math.PI*2);
             ctx.fillStyle="black";
@@ -66,7 +66,7 @@ class Visualizer{
         }
         
         for(let i=0;i<outputs.length;i++){
-            const x=Visualizer.#getNodeX(outputs,i,left,right);
+            const x=Visualizer.getNodeX(outputs,i,left,right);
             ctx.beginPath();
             ctx.arc(x,top,nodeRadius,0,Math.PI*2);
             ctx.fillStyle="black";
@@ -98,7 +98,7 @@ class Visualizer{
         }
     }
 
-    static #getNodeX(nodes: string | any[],index: number,left: number,right: number){
+    private static getNodeX(nodes: string | any[],index: number,left: number,right: number){
         return lerp(
             left,
             right,

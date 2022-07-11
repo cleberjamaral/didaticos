@@ -13,10 +13,11 @@ class Level{
             this.weights[i]=new Array(outputCount);
         }
     
-        Level.#randomize(this);
+        Level.randomize(this);
     }
 
-    static #randomize(level: Level){
+    //static #randomize(level: Level){
+    private static randomize(level: Level){
         for(let i=0;i<level.inputs.length;i++){
             for(let j=0;j<level.outputs.length;j++){
                 level.weights[i][j]=Math.random()*2-1;
